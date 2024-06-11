@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import {View,Text,Image,StyleSheet, ScrollView, TouchableOpacity,TextInput} from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import Image20 from '../assets/welcomeBox.png';
 import TV from '../assets/TV.png';
 import AC from '../assets/AC.png';
@@ -36,8 +35,7 @@ const allServices = [
   { name: 'Massage For Men', image: Massagemen },
 ];
 
-
-const Homescreen = ({ navigation }) => {
+const Home = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredServices, setFilteredServices] = useState(allServices);
 
@@ -47,6 +45,7 @@ const Homescreen = ({ navigation }) => {
     );
     setFilteredServices(filtered);
   };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Search bar */}
@@ -54,6 +53,11 @@ const Homescreen = ({ navigation }) => {
         <TextInput
           style={styles.searchInput}
           placeholder="Search For Services"
+          value={searchQuery}
+          onChangeText={text => {
+            setSearchQuery(text);
+            handleSearch();
+          }}
         />
       </View>
 
@@ -65,107 +69,18 @@ const Homescreen = ({ navigation }) => {
       </View>
 
       <Text style={styles.headingText2}>Trending Services</Text>
-      <View style={styles.squareRow}>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('ServiceDetails')}>
-          <Image source={AC} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>AC Repair</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={TV} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>TV Installing</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Face} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Bleach & Detan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Head} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Head Massage</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Hair} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Hair Care</Text>
-        </TouchableOpacity>
+      <View style={styles.serviceContainer}>
+        {filteredServices.map((service, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.square}
+            onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
+            <Image source={service.image} style={styles.squareImage} />
+            <Text style={styles.loginButtonText}>{service.name}</Text>
+          </TouchableOpacity>
+          
+        ))}
       </View>
-
-      <Text style={styles.headingText3}>Home Services</Text>
-      <View style={styles.squareRow1}>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Electrical} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Electrical Plumbing</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Clean} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Cleaning</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Repair} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Home Repairs</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Paint} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Home Painting</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Pest} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Pest Control</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.headingText4}>Personal Services</Text>
-      <View style={styles.squareRow2}>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Salonewomen} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Salon For Women</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Spawomen} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Spa For Women</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={HairSkin} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Hair & Skin</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Salonemen} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Salon For Men</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={Massagemen} style={styles.squareImage} />
-          <Text style={styles.loginButtonText}>Massage For Men</Text>
-        </TouchableOpacity>
-      </View>
-      
     </ScrollView>
   );
 };
@@ -223,53 +138,39 @@ const styles = StyleSheet.create({
     right: 100,
     color: 'black',
   },
-  headingText3: {
-    fontSize: 23,
-    fontWeight: 'bold',
-    bottom: 80,
-    right: 110,
-    color: 'black',
-  },
-  headingText4: {
-    fontSize: 23,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    right: 110,
-    color: 'black',
-  },
-  squareRow: {
+  serviceContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     bottom: 120,
     marginBottom: 20,
-  },
-  squareRow1: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    bottom: 50,
-  },
-  squareRow2: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    bottom: 0,
   },
   loginButtonText: {
     fontSize: 15,
     color: 'black',
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 5,
   },
   square: {
-    width: 60,
-    height: 80,
-    marginHorizontal: 10,
-    borderRadius: 12,
+    width: 100,
+    height: 120,
+    margin: 10,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 0,
+   
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   squareImage: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
   },
 });
 
-export default Homescreen;
+export default Home;
