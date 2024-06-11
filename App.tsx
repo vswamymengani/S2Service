@@ -1,118 +1,97 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Welcome from './components/screens/Welcome';
+import Login from './components/screens/Login';
+import Form from './components/screens/Form';
+import Forgott from './components/screens/Forgott';
+import Forgott1 from './components/screens/Forgott1';
+import Forgott2 from './components/screens/Forgott2';
+import ServiceDetails from './components/screens/ServiceDetails';
+import Home from './components/screens/Home';
+import Bookings from './components/screens/Bookings';
+import SSPlus from './components/screens/SSPlus';
+import Rewards from './components/screens/Rewards';
+import Account from './components/screens/Account';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+// Create Stack Navigator
+const Stack = createNativeStackNavigator();
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// Create Tab Navigator
+const Tab = createBottomTabNavigator();
+
+// MainTabs component for the bottom tab navigation
+function MainTabs() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <Tab.Navigator>
+      <Tab.Screen 
+        name="Home" 
+        component={Home} 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={size}  />
+          ),
+        }} 
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <Tab.Screen 
+        name="Bookings" 
+        component={Bookings} 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="calendar" color={color} size={size} />
+          ),
+        }} 
+      />
+      <Tab.Screen 
+        name="SS Plus" 
+        component={SSPlus} 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="plus" color={color} size={size} />
+          ),
+        }} 
+      />
+      <Tab.Screen 
+        name="Rewards" 
+        component={Rewards} 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="gift" color={color} size={size} />
+          ),
+        }} 
+      />
+      <Tab.Screen 
+        name="Account" 
+        component={Account} 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" color={color} size={size} />
+          ),
+        }} 
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+// Main App component
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Form" component={Form} options={{ headerShown: false }} />
+        <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="Forgott" component={Forgott} options={{ headerShown: false }} />
+        <Stack.Screen name="Forgott1" component={Forgott1} options={{ headerShown: false }} />
+        <Stack.Screen name="Forgott2" component={Forgott2} options={{ headerShown: false }} />
+        <Stack.Screen name="ServiceDetails" component={ServiceDetails} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
