@@ -159,13 +159,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+
     padding: 0,
-   
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
+ 
   },
   squareImage: {
     width: 80,
