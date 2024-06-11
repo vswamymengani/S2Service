@@ -24,7 +24,7 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = () => {
+  const handleLogin = () => 
     if (validateForm()) {
       axios.post('http://10.0.2.2:3000/login', {
         email,
