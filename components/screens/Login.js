@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Image6 from '../assets/slogo.png';
 import Image7 from '../assets/Fb.png';
 import Image8 from '../assets/Gb.png';
+import fblogo from '../assets/Fblogo.jpg';
+import glogo from '../assets/Glogo.jpg';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -57,62 +59,71 @@ const Login = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={Image6} style={styles.image6} />
-      <View style={styles.header}>
-        <Text style={styles.headerText}></Text>
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.heading}>Login</Text>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Email</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image source={Image6} style={styles.image6} />
+        <View style={styles.header}>
+          <Text style={styles.headerText}></Text>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="example@gmail.com"
-          value={email}
-          onChangeText={(text) => { setEmail(text); clearError('email'); }}
-        />
-        {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Password</Text>
+        <View style={styles.formContainer}>
+          <Text style={styles.heading}>Login</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>Email</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="example@gmail.com"
+            value={email}
+            onChangeText={(text) => { setEmail(text); clearError('email'); }}
+            key="email"
+          />
+          {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>Password</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => { setPassword(text); clearError('password'); }}
+            key="password"
+          />
+          {errors.password && <Text style={styles.error}>{errors.password}</Text>}
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your password"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={(text) => { setPassword(text); clearError('password'); }}
-        />
-        {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-      </View>
-      {errors.general && <Text style={styles.error}>{errors.general}</Text>}
-      <TouchableOpacity style={styles.rememberme}>
-        <Text style={styles.remembermeText}>Remember Me</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
-        <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <View style={styles.line} />
-        <Text style={styles.orwith}>Or With</Text>
-        <View style={styles.line} />
-      </View>
-      <TouchableOpacity>
-        <Image source={Image7} style={styles.image7} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image source={Image8} style={styles.image8} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Form')}>
-        <Text style={styles.signupText}>
-          Don't have an account? <Text style={styles.signupLink}>Signup</Text>
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
+        {errors.general && <Text style={styles.error}>{errors.general}</Text>}
+        <TouchableOpacity style={styles.rememberme}>
+          <Text style={styles.remembermeText}>Remember Me</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
+          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+        <View style={styles.orContainer}>
+          <View style={styles.line} />
+          <Text style={styles.orwith}>Or With</Text>
+          <View style={styles.line} />
+        </View>
+        <TouchableOpacity>
+          <Image source={Image7} style={styles.image7} />
+          <Image source={fblogo} style={styles.fblogo} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={Image8} style={styles.image8} />
+          <Image source={glogo} style={styles.glogo} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Form')}>
+          <Text style={styles.signupText}>
+            Don't have an account? <Text style={styles.signupLink}>Signup</Text>
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -125,8 +136,8 @@ const styles = StyleSheet.create({
   },
   image6: {
     width: '80%',
-    height: '10%',
-    top:50,
+    height: 75,
+    marginTop: 30,
   },
   image7: {
     width: 230,
@@ -137,16 +148,27 @@ const styles = StyleSheet.create({
     width: 230,
     height: 50,
     marginTop: 20,
+    bottom:35,
+  },
+  fblogo: {
+    width: 42,
+    height: 42,
+   bottom:48,
+  },
+  glogo: {
+    width: 42,
+    height: 42,
+   bottom:80,
   },
   heading: {
     fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
-    marginTop: 20,
-    marginBottom: 30,
+    bottom: 24,
+    marginBottom: 0,
   },
   header: {
-    marginTop: 0,
+    marginTop: -10,
   },
   headerText: {
     fontSize: 24,
@@ -187,6 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 0,
     marginTop: -10,
+    bottom:10,
   },
   loginButtonText: {
     fontSize: 18,
@@ -228,6 +251,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 50,
     marginTop: 25,
+    bottom:85,
+    fontSize: 14,
   },
   signupLink: {
     color: '#1DBBFF',
@@ -240,4 +265,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Login;
+

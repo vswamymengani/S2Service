@@ -5,6 +5,7 @@ import TV from '../assets/TV.png';
 import AC from '../assets/AC.png';
 import Face from '../assets/Face.png';
 import Head from '../assets/Head.png';
+import Washing from '../assets/Washing.jpeg';
 import Hair from '../assets/Hair.png';
 import Electrical from '../assets/Electrical.png';
 import Clean from '../assets/Clean.png';
@@ -17,17 +18,24 @@ import HairSkin from '../assets/HairSkin.png';
 import Salonemen from '../assets/Salonemen.png';
 import Massagemen from '../assets/Massagemen.png';
 
-const allServices = [
+const trendingServices = [
   { name: 'AC Repair', image: AC },
   { name: 'TV Installing', image: TV },
+  { name: 'Washing', image: Washing },
   { name: 'Bleach & Detan', image: Face },
   { name: 'Head Massage', image: Head },
   { name: 'Hair Care', image: Hair },
+];
+
+const homeServices = [
   { name: 'Electrical Plumbing', image: Electrical },
   { name: 'Cleaning', image: Clean },
   { name: 'Home Repairs', image: Repair },
   { name: 'Home Painting', image: Paint },
   { name: 'Pest Control', image: Pest },
+];
+
+const personalServices = [
   { name: 'Salon For Women', image: Salonewomen },
   { name: 'Spa For Women', image: Spawomen },
   { name: 'Hair & Skin', image: HairSkin },
@@ -37,14 +45,30 @@ const allServices = [
 
 const Home = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredServices, setFilteredServices] = useState(allServices);
+  const [filteredTrendingServices, setFilteredTrendingServices] = useState(trendingServices);
+  const [filteredHomeServices, setFilteredHomeServices] = useState(homeServices);
+  const [filteredPersonalServices, setFilteredPersonalServices] = useState(personalServices);
 
-  const handleSearch = () => {
-    const filtered = allServices.filter(service =>
-      service.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    const filteredTrending = trendingServices.filter(service =>
+      service.name.toLowerCase().includes(text.toLowerCase())
     );
-    setFilteredServices(filtered);
+    const filteredHome = homeServices.filter(service =>
+      service.name.toLowerCase().includes(text.toLowerCase())
+    );
+    const filteredPersonal = personalServices.filter(service =>
+      service.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredTrendingServices(filteredTrending);
+    setFilteredHomeServices(filteredHome);
+    setFilteredPersonalServices(filteredPersonal);
   };
+
+  const noServicesAvailable = 
+    filteredTrendingServices.length === 0 &&
+    filteredHomeServices.length === 0 &&
+    filteredPersonalServices.length === 0;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -54,10 +78,7 @@ const Home = ({ navigation }) => {
           style={styles.searchInput}
           placeholder="Search For Services"
           value={searchQuery}
-          onChangeText={text => {
-            setSearchQuery(text);
-            handleSearch();
-          }}
+          onChangeText={handleSearch}
         />
       </View>
 
@@ -68,19 +89,62 @@ const Home = ({ navigation }) => {
         <Image source={Image20} style={styles.Image} />
       </View>
 
-      <Text style={styles.headingText2}>Trending Services</Text>
-      <View style={styles.serviceContainer}>
-        {filteredServices.map((service, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.square}
-            onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
-            <Image source={service.image} style={styles.squareImage} />
-            <Text style={styles.loginButtonText}>{service.name}</Text>
-          </TouchableOpacity>
-          
-        ))}
-      </View>
+      {noServicesAvailable ? (
+        <Text style={styles.noServicesText}>No services available</Text>
+      ) : (
+        <>
+          {filteredTrendingServices.length > 0 && (
+            <>
+              <Text style={styles.headingText2}>Trending Services</Text>
+              <View style={styles.squareRow}>
+                {filteredTrendingServices.map((service, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.square}
+                    onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
+                    <Image source={service.image} style={styles.squareImage} />
+                    <Text style={styles.loginButtonText}>{service.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          )}
+
+          {filteredHomeServices.length > 0 && (
+            <>
+              <Text style={styles.headingText2}>Home Services</Text>
+              <View style={styles.squareRow}>
+                {filteredHomeServices.map((service, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.square}
+                    onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
+                    <Image source={service.image} style={styles.squareImage} />
+                    <Text style={styles.loginButtonText}>{service.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          )}
+
+          {filteredPersonalServices.length > 0 && (
+            <>
+              <Text style={styles.headingText2}>Personal Services</Text>
+              <View style={styles.squareRow}>
+                {filteredPersonalServices.map((service, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.square}
+                    onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
+                    <Image source={service.image} style={styles.squareImage} />
+                    <Text style={styles.loginButtonText}>{service.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          )}
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -138,11 +202,17 @@ const styles = StyleSheet.create({
     right: 100,
     color: 'black',
   },
-  serviceContainer: {
+  noServicesText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  squareRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    bottom: 120,
+    bottom: 130,
     marginBottom: 20,
   },
   loginButtonText: {
@@ -159,9 +229,7 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
-
     padding: 0,
- 
   },
   squareImage: {
     width: 80,

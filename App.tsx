@@ -3,7 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Image, StyleSheet } from 'react-native'; // Import Image and StyleSheet from react-native
 
+import Homeicon from './components/assets/Homeicon.png';
+import bookingicon from './components/assets/bookingicon.png'; // Adjust the import path if necessary
+import ssicon from './components/assets/ssicon.png';
+import rewardsicon from './components/assets/rewardsicon.png';
+import accounticon from './components/assets/accounticon.png';
 import Welcome from './components/screens/Welcome';
 import Login from './components/screens/Login';
 import Form from './components/screens/Form';
@@ -26,23 +32,34 @@ const Tab = createBottomTabNavigator();
 // MainTabs component for the bottom tab navigation
 function MainTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontWeight:'bold',
+          height:20,
+          width:70, // Set the font size for all tab labels
+        },
+      }}
+    >
       <Tab.Screen 
         name="Home" 
         component={Home} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size}  />
+            <Image source={Homeicon} style={styles.Homeicon} />
           ),
-        }} 
+          tabBarLabel: 'Home', // Specify the label for the tab
+        }}
       />
       <Tab.Screen 
         name="Bookings" 
         component={Bookings} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="calendar" color={color} size={size} />
+            <Image source={bookingicon} style={styles.Homeicon} />
           ),
+          tabBarLabel: 'Bookings', // Specify the label for the tab
         }} 
       />
       <Tab.Screen 
@@ -50,8 +67,10 @@ function MainTabs() {
         component={SSPlus} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="plus" color={color} size={size} />
+            <Image source={ssicon} style={styles.Homeicon} />
           ),
+          
+          tabBarLabel: 'SS Plus', // Specify the label for the tab
         }} 
       />
       <Tab.Screen 
@@ -59,8 +78,10 @@ function MainTabs() {
         component={Rewards} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="gift" color={color} size={size} />
+            <Image source={rewardsicon} style={styles.Homeicon} />
           ),
+          
+          tabBarLabel: 'Rewards', // Specify the label for the tab
         }} 
       />
       <Tab.Screen 
@@ -68,8 +89,10 @@ function MainTabs() {
         component={Account} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="user" color={color} size={size} />
+            <Image source={accounticon} style={styles.Homeicon} />
           ),
+          
+          tabBarLabel: 'Account', // Specify the label for the tab
         }} 
       />
     </Tab.Navigator>
@@ -93,5 +116,12 @@ function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  Homeicon: {
+    width: 26,
+    height: 26,
+  },
+});
 
 export default App;

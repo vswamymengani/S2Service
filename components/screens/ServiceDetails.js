@@ -56,6 +56,45 @@ const ServiceDetails = ({ navigation }) => {
       <Text style={styles.point}>
         AC service with advanced foam-jet technology.
       </Text>
+      <Text style={styles.offerText}>Repair & Gas Refill</Text>
+
+      <Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
+      <Text style={styles.ratingText1}>
+        {'\u2605'} 4.9 (80.2k reviews)
+      </Text>
+      <Text style={styles.prize}>
+        Starts at ₹1500.
+      </Text>
+      <Text style={styles.point}>
+        AC service with advanced foam-jet technology.
+      </Text>
+      
+      <Text style={styles.offerText}>Installing</Text>
+
+<Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
+<Text style={styles.ratingText1}>
+  {'\u2605'} 4.3 (70.2k reviews)
+</Text>
+<Text style={styles.prize}>
+  Starts at ₹900.
+</Text>
+<Text style={styles.point}>
+  AC service with advanced foam-jet technology.
+</Text>
+
+<Text style={styles.offerText}>Uninstalling</Text>
+
+<Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
+<Text style={styles.ratingText1}>
+  {'\u2605'} 4.7 (79.2k reviews)
+</Text>
+<Text style={styles.prize}>
+  Starts at ₹700.
+</Text>
+<Text style={styles.point}>
+  AC service with advanced foam-jet technology.
+</Text>
+
       <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('Booking')}>
         <Text style={styles.bookbuttonText}>Book</Text>
       </TouchableOpacity>
