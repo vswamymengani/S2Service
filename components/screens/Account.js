@@ -1,20 +1,252 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  View,
+} from 'react-native';
 
-const Account = () => {
+const Account = ({ navigation }) => {
+  const handleLogout = () => {
+    console.log('User logged out');
+    // Add logic to navigate to login screen or initial screen after logout
+    // navigation.replace('Login');
+  };
+  const handleMyBookingsPress = () => {
+    navigation.navigate('BookingScreen'); // Navigate to BookingScreen
+  };
+  const handleHelpCenterPress = () => {
+    navigation.navigate('HelpScreen'); // Navigate to HelpScreen
+  };
+  
+
   return (
-    <View style={styles.container}>
-      <Text>Account Screen</Text>
-    </View>
-  );
-};
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerText}>
+            <Text style={styles.name}>RAGHAV</Text>
+            <Text style={styles.phone}>+91 9381973549</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.editIcon}
+            onPress={() => navigation.navigate('EditProfile')}>
+            <Icon name="mode-edit" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+  
+        <View>
+          <TouchableOpacity style={styles.item} onPress={handleMyBookingsPress}>
+            <View style={styles.subItem}>
+              <Icon name="book" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>My bookings</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+
+          
+  
+          <TouchableOpacity style={styles.item} onPress={handleHelpCenterPress}>
+          <View style={styles.subItem}>
+            <Icon name="headset-mic" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Help center</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="devices" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Native devices</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="account-balance-wallet" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Wallet</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="wallet-membership" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Plus membership</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="star" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>My rating</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="location-on" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Manage addresses</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="payment" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Manage payment methods</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="settings" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Settings</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="schedule" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>Scheduled bookings</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+  
+          <TouchableOpacity style={styles.item}>
+            <View style={styles.subItem}>
+              <Icon name="info" size={24} color="black" style={styles.icon} />
+              <Text style={styles.itemText}>About S2S</Text>
+            </View>
+            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+          </TouchableOpacity>
+        </View>
+  
+        <View style={styles.referralContainer}>
+          <Text style={styles.referralTitle}>Refer & earn ₹100</Text>
+          <Text style={styles.referralSubtitle}>Get ₹100 when your friend</Text>
+          <Image source={{ uri: 'https://link.to/gift-image.png' }} style={styles.referralImage} />
+          {/* <Image source={require('./assets/gift.png')} style={styles.referralImage} /> */}
+          <TouchableOpacity style={styles.referButton} onPress={''}>
+            <Text style={styles.referButtonText}>Refer Now</Text>
+          </TouchableOpacity>
+        </View>
+  
+        <View style={styles.logoutContainer}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  header: {
+    padding: 20,
+    flexDirection: 'row',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  headerText: {
+    flex: 1,
+  },
+  name: {
+    fontSize: 24,
+    color: '#a30b9e',
+    fontWeight: 'bold',
+  },
+  phone: {
+    fontSize: 16,
+    color: '#a30b9e',
+    marginVertical: 10,
+  },
+  editIcon: {
+    padding: 10,
+  },
+  subItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  item: {
+    justifyContent: 'space-between',
+    flex: 1,
+    padding: 20,
+    color: '#333',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  icon: {
+    marginRight: 20,
+  },
+  rightIcon: {
+    justifyContent: 'flex-end',
+  },
+  itemText: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight:'bold',
+  },
+  referralContainer: {
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+    alignItems: 'center',
+  },
+  referralTitle: {
+    fontSize: 16,
+    color: 'blue',
+    fontWeight: 'bold',
+  },
+  referralSubtitle: {
+    fontSize: 16,
+    color: '#8c53e0',
+  },
+  referralImage: {
+    width: 50,
+    height: 50,
+    marginTop: 10,
+  },
+  referButton: {
+    marginTop: 10,
+    backgroundColor: '#ff5c5c',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  referButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutContainer: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  logoutButton: {
+    backgroundColor: '#ff5c5c',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
-export default Account;
+export default Account;

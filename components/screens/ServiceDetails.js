@@ -5,13 +5,17 @@ import service from '../assets/service.png';
 import gas from '../assets/gas.jpg';
 import install from '../assets/install.jpg';
 import Offer from '../assets/Offer.png';
-import Image2 from "../assets/BackArrow.png";
+// import Image2 from "../assets/BackArrow.png";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ServiceDetails = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.backArrowContainer} onPress={() => navigation.navigate("Home")}>
+      {/* <TouchableOpacity style={styles.backArrowContainer} onPress={() => navigation.navigate("Home")}>
         <Image source={Image2} style={styles.backArrow} />
+      </TouchableOpacity> */}
+       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Ionicons name="arrow-back" size={28} color="black" />
       </TouchableOpacity>
 
       <Image source={Acrepair} style={styles.image} />
@@ -109,6 +113,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingBottom: 20,
   },
+  backButton: {
+    
+    justifyContent:'flex-start',
+    right:160,
+  },
+
   backArrowContainer: {
     position: 'absolute',
     top: 20,
