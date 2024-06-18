@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Image20 from '../assets/welcomeBox.png';
 import TV from '../assets/TV.png';
 import AC from '../assets/AC.png';
@@ -45,6 +46,7 @@ const personalServices = [
 
 const Home = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const [filteredTrendingServices, setFilteredTrendingServices] = useState(trendingServices);
   const [filteredHomeServices, setFilteredHomeServices] = useState(homeServices);
   const [filteredPersonalServices, setFilteredPersonalServices] = useState(personalServices);
@@ -72,12 +74,28 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Search bar */}
+      {/* Search bar with conditional icons */}
       <View style={styles.searchContainer}>
+        {isSearchActive ? (
+          <TouchableOpacity onPress={() => {
+            setIsSearchActive(false);
+            setSearchQuery('');
+            setFilteredTrendingServices(trendingServices);
+            setFilteredHomeServices(homeServices);
+            setFilteredPersonalServices(personalServices);
+          }} style={styles.iconContainer}>
+            <Icon name="arrow-back" size={24} color="black" />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.iconContainer}>
+            <Icon name="search" size={24} color="black" />
+          </View>
+        )}
         <TextInput
           style={styles.searchInput}
           placeholder="Search For Services"
           value={searchQuery}
+          onFocus={() => setIsSearchActive(true)}
           onChangeText={handleSearch}
         />
       </View>
@@ -167,6 +185,8 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
   searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     position: 'absolute',
     top: 50,
     left: 20,
@@ -174,17 +194,18 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: 'white',
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10,
     bottom: 40,
     marginTop: 20,
   },
+  iconContainer: {
+    marginRight: 10,
+  },
   searchInput: {
-    width: '100%',
+    flex: 1,
     height: '100%',
     color: 'black',
     fontSize: 16,
-    paddingHorizontal: 10,
   },
   welcomeBox: {
     marginLeft: 0,

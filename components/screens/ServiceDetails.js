@@ -99,7 +99,7 @@ const ServiceDetails = ({ navigation }) => {
   AC service with advanced foam-jet technology.
 </Text>
 
-      <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('Booking')}>
+      <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('Scheduler')}>
         <Text style={styles.bookbuttonText}>Book</Text>
       </TouchableOpacity>
     </ScrollView>

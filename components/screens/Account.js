@@ -1,152 +1,157 @@
 import React from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  View,
-} from 'react-native';
+import gift1 from '../assets/gift1.jpeg';
 
 const Account = ({ navigation }) => {
   const handleLogout = () => {
-    console.log('User logged out');
-    // Add logic to navigate to login screen or initial screen after logout
-    // navigation.replace('Login');
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Logout cancelled"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => navigation.replace('Login') }
+      ],
+      { cancelable: false }
+    );
   };
+
   const handleMyBookingsPress = () => {
     navigation.navigate('BookingScreen'); // Navigate to BookingScreen
   };
+
   const handleHelpCenterPress = () => {
     navigation.navigate('HelpScreen'); // Navigate to HelpScreen
   };
-  
 
   return (
-      <ScrollView style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerText}>
-            <Text style={styles.name}>RAGHAV</Text>
-            <Text style={styles.phone}>+91 9381973549</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.editIcon}
-            onPress={() => navigation.navigate('EditProfile')}>
-            <Icon name="mode-edit" size={24} color="black" />
-          </TouchableOpacity>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.headerText}>
+          <Text style={styles.name}>Raghav</Text>
+          <Text style={styles.phone}>+91 9381973549</Text>
         </View>
-  
-        <View>
-          <TouchableOpacity style={styles.item} onPress={handleMyBookingsPress}>
-            <View style={styles.subItem}>
-              <Icon name="book" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>My bookings</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.editIcon}
+          onPress={() => navigation.navigate('EditProfile')}>
+          <Icon name="mode-edit" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
 
-          
-  
-          <TouchableOpacity style={styles.item} onPress={handleHelpCenterPress}>
+      <View>
+        <TouchableOpacity style={styles.item} onPress={handleMyBookingsPress}>
+          <View style={styles.subItem}>
+            <Icon name="book" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>My bookings</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={handleHelpCenterPress}>
           <View style={styles.subItem}>
             <Icon name="headset-mic" size={24} color="black" style={styles.icon} />
             <Text style={styles.itemText}>Help center</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
         </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="devices" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Native devices</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="account-balance-wallet" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Wallet</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="wallet-membership" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Plus membership</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="star" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>My rating</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="location-on" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Manage addresses</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="payment" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Manage payment methods</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="settings" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Settings</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="schedule" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>Scheduled bookings</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.item}>
-            <View style={styles.subItem}>
-              <Icon name="info" size={24} color="black" style={styles.icon} />
-              <Text style={styles.itemText}>About S2S</Text>
-            </View>
-            <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-          </TouchableOpacity>
-        </View>
-  
-        <View style={styles.referralContainer}>
-          <Text style={styles.referralTitle}>Refer & earn ₹100</Text>
-          <Text style={styles.referralSubtitle}>Get ₹100 when your friend</Text>
-          <Image source={{ uri: 'https://link.to/gift-image.png' }} style={styles.referralImage} />
-          {/* <Image source={require('./assets/gift.png')} style={styles.referralImage} /> */}
-          <TouchableOpacity style={styles.referButton} onPress={''}>
-            <Text style={styles.referButtonText}>Refer Now</Text>
-          </TouchableOpacity>
-        </View>
-  
-        <View style={styles.logoutContainer}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    );
-  };
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('NativeDevice')}>
+          <View style={styles.subItem}>
+            <Icon name="devices" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Native devices</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <View style={styles.subItem}>
+            <Icon name="account-balance-wallet" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Wallet</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('PlusMembershipScreen')}>
+          <View style={styles.subItem}>
+            <Icon name="wallet-membership" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Plus membership</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('RatingScreen')}>
+          <View style={styles.subItem}>
+            <Icon name="star" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>My rating</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('ManageAddress')}>
+          <View style={styles.subItem}>
+            <Icon name="location-on" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Manage addresses</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('ManagePayment')}>
+          <View style={styles.subItem}>
+            <Icon name="payment" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Manage payment methods</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <View style={styles.subItem}>
+            <Icon name="settings" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Settings</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <View style={styles.subItem}>
+            <Icon name="schedule" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Scheduled bookings</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('AboutScreen')}>
+          <View style={styles.subItem}>
+            <Icon name="info" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>About S2S</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.item} onPress={handleLogout}>
+          <View style={styles.subItem}>
+            <Icon name="logout" size={24} color="black" style={styles.icon} />
+            <Text style={styles.itemText}>Logout</Text>
+          </View>
+          <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.referralContainer}>
+        <Text style={styles.referralTitle}>Refer & earn ₹100</Text>
+        <Text style={styles.referralSubtitle}>Get ₹100 when your friend</Text>
+        <Image source={{ uri: 'https://link.to/gift-image.png' }} style={styles.referralImage} />
+        <Image source={gift1} style={styles.referralImage} />
+        <TouchableOpacity style={styles.referButton} onPress={''}>
+          <Text style={styles.referButtonText}>Refer Now</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -199,7 +204,7 @@ const styles = StyleSheet.create({
   itemText: {
     color: '#333',
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight: 'bold',
   },
   referralContainer: {
     padding: 20,
@@ -216,9 +221,9 @@ const styles = StyleSheet.create({
     color: '#8c53e0',
   },
   referralImage: {
-    width: 50,
-    height: 50,
-    marginTop: 10,
+    width: 90,
+    height: 80,
+    marginTop: -40,
   },
   referButton: {
     marginTop: 10,

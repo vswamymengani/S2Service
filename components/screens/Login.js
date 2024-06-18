@@ -3,16 +3,21 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView,
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Image6 from '../assets/slogo.png';
-import Image7 from '../assets/Fb.png';
-import Image8 from '../assets/Gb.png';
 import fblogo from '../assets/Fblogo.jpg';
 import glogo from '../assets/Glogo.jpg';
 
 const Login = () => {
+  const MainTabs = ({ route }) => {
+    const { email } = route.params;
+  
+    // Rest of your component code
+  };
+  
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [rememberMe, setRememberMe] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -35,7 +40,7 @@ const Login = () => {
         .then(response => {
           if (response.data.Status === "Success") {
             // Successfully logged in
-            navigation.push('MainTabs');
+            navigation.push('MainTabs', { email }); // Pass email to MainTabs screen
           } else {
             // Handle error responses from the server
             console.error('Failed to login:', response.data.Error);
@@ -78,7 +83,6 @@ const Login = () => {
             placeholder="example@gmail.com"
             value={email}
             onChangeText={(text) => { setEmail(text); clearError('email'); }}
-            key="email"
           />
           {errors.email && <Text style={styles.error}>{errors.email}</Text>}
           <View style={styles.labelContainer}>
@@ -90,17 +94,18 @@ const Login = () => {
             secureTextEntry={true}
             value={password}
             onChangeText={(text) => { setPassword(text); clearError('password'); }}
-            key="password"
           />
           {errors.password && <Text style={styles.error}>{errors.password}</Text>}
         </View>
         {errors.general && <Text style={styles.error}>{errors.general}</Text>}
-        <TouchableOpacity style={styles.rememberme}>
-          <Text style={styles.remembermeText}>Remember Me</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </TouchableOpacity>
+        <View style={styles.rememberMeContainer}>
+          <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
+            <Text style={styles.rememberMeText}>{rememberMe ? "☑" : "☐"} Remember Me</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
+            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
@@ -109,13 +114,13 @@ const Login = () => {
           <Text style={styles.orwith}>Or With</Text>
           <View style={styles.line} />
         </View>
-        <TouchableOpacity>
-          <Image source={Image7} style={styles.image7} />
-          <Image source={fblogo} style={styles.fblogo} />
+        <TouchableOpacity style={styles.facebookButton} onPress={''}>
+          <Image source={fblogo} style={styles.socialLogo} />
+          <Text style={styles.loginButtonText}>Login with Facebook</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={Image8} style={styles.image8} />
-          <Image source={glogo} style={styles.glogo} />
+        <TouchableOpacity style={styles.googleButton} onPress={''}>
+          <Image source={glogo} style={styles.socialLogo} />
+          <Text style={styles.loginButtonText}>Login with Google</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Form')}>
           <Text style={styles.signupText}>
@@ -139,41 +144,14 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: 30,
   },
-  image7: {
-    width: 230,
-    height: 50,
-    marginTop: 21,
-  },
-  image8: {
-    width: 230,
-    height: 50,
-    marginTop: 20,
-    bottom:35,
-  },
-  fblogo: {
-    width: 42,
-    height: 42,
-   bottom:48,
-  },
-  glogo: {
-    width: 42,
-    height: 42,
-   bottom:80,
-  },
   heading: {
     fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
-    bottom: 24,
-    marginBottom: 0,
+    marginBottom: 20,
   },
   header: {
     marginTop: -10,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
   },
   formContainer: {
     alignItems: 'flex-start',
@@ -198,7 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    marginTop: 5,
   },
   loginButton: {
     width: '60%',
@@ -207,9 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    marginBottom: 0,
-    marginTop: -10,
-    bottom:10,
+    marginBottom: 20,
   },
   loginButtonText: {
     fontSize: 18,
@@ -217,18 +192,17 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: 'black',
-    marginBottom: 20,
     fontWeight: 'bold',
-    left: 100,
-    bottom: 28,
   },
-  rememberme: {
-    marginBottom: 15,
+  rememberMeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 20,
   },
-  remembermeText: {
+  rememberMeText: {
     color: 'black',
     fontWeight: 'bold',
-    right: 100,
   },
   orContainer: {
     flexDirection: 'row',
@@ -246,12 +220,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
   },
+  socialLogo: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  facebookButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '60%',
+    height: 50,
+    backgroundColor: '#3b5998',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '60%',
+    height: 50,
+    backgroundColor: '#db4a39',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
   signupText: {
     color: 'black',
     fontWeight: 'bold',
     marginBottom: 50,
-    marginTop: 25,
-    bottom:85,
     fontSize: 14,
   },
   signupLink: {
@@ -260,10 +257,8 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red',
-    marginBottom: 5,
-    marginTop: -15,
+    marginBottom: 10,
   },
 });
 
 export default Login;
-

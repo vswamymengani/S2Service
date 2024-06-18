@@ -36,7 +36,7 @@ const HelpScreen = ({ navigation }) => {
           <Text style={styles.itemText}>S2S Safety</Text>
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Warranty')}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('WarrantyScreen')}>
           <Ionicons name="shield-checkmark-outline" size={24} color="black" />
           <Text style={styles.itemText}>Warranty</Text>
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />

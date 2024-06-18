@@ -2,7 +2,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+
 
 import Homeicon from './components/assets/Homeicon.png';
 import bookingicon from './components/assets/bookingicon.png';
@@ -25,6 +26,18 @@ import HelpScreen from './components/screens/HelpScreen';
 import EditProfile from './components/screens/EditProfile';
 import HelpAccountScreen from './components/screens/HelpAccountScreen ';
 import BookingScreen from './components/screens/BookingScreen';
+import Scheduler from './components/screens/Scheduler';
+import PaymentSummary from './components/screens/PaymentSummary';
+import PaymentMethod from './components/screens/PaymentMethod';
+import AboutScreen from './components/screens/AboutScreen';
+import GettingStarted from './components/screens/GettingStarted';
+import ManageAddress from './components/screens/ManageAddress';
+import ManagePayment from './components/screens/ManagePayment';
+import NativeDevice from './components/screens/NativeDevice';
+import PlusMembershipScreen from './components/screens/PlusMembershipScreen';
+import RatingScreen from './components/screens/RatingScreen';
+//import WarrantyScreen from './components/screens/WarrantyScreen';
+
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -62,9 +75,10 @@ function MainTabs() {
         name="Bookings"
         component={Bookings}
         options={{
+         
           tabBarIcon: ({ color, size }) => (
             <Image source={bookingicon} style={styles.Homeicon} />
-          ),
+            ),
           tabBarLabel: 'Bookings',
         }}
       />
@@ -118,8 +132,50 @@ function App() {
         <Stack.Screen name="HelpScreen" component={HelpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
         <Stack.Screen name="HelpAccountScreen" component={HelpAccountScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="BookingScreen" component={BookingScreen} options={{ headerShown: false }} />
-       
+        <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: false }} />
+        <Stack.Screen name="PaymentSummary" component={PaymentSummary} options={{ headerShown: false }} />
+        <Stack.Screen name="PaymentMethod" component={PaymentMethod} options={{ headerShown: false }} />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="GettingStarted" component={GettingStarted} options={{ headerShown: false }} />
+        <Stack.Screen name="ManageAddress" component={ManageAddress} options={{ headerShown: false }} />
+        <Stack.Screen name="ManagePayment" component={ManagePayment} options={{ headerShown: false }} />
+        <Stack.Screen name="NativeDevice" component={NativeDevice} options={{ headerShown: false }} />
+        <Stack.Screen name="PlusMembershipScreen" component={PlusMembershipScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="RatingScreen" component={RatingScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} />
+         */}
+        <Stack.Screen 
+          name="BookingScreen" 
+          component={BookingScreen} 
+          options={({ navigation }) => ({
+           
+            headerShown: true,
+          })}
+        />
+        <Stack.Screen 
+          name="SSPlus" 
+          component={SSPlus} 
+          options={({ navigation }) => ({
+           
+            headerShown: true,
+          })}
+        />
+        <Stack.Screen 
+          name="Rewards" 
+          component={Rewards} 
+          options={({ navigation }) => ({
+          
+            headerShown: true,
+          })}
+        />
+        <Stack.Screen 
+          name="Account" 
+          component={Account} 
+          options={({ navigation }) => ({
+        
+            headerShown: true,
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

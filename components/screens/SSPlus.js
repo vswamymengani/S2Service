@@ -6,9 +6,7 @@ const SSPlus = ({ navigation }) => {
   return (
     <View style={styles.container}>
       
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
+        
         <Image source={sub} style={styles.sub} />
         <Text style={styles.heading}>No Active Subscriptions</Text>
         <Text style={styles.heading1}>Looks like you have not purchased any subscription plan</Text>
