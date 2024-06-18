@@ -16,6 +16,24 @@ import Bookings from './components/screens/Bookings';
 import SSPlus from './components/screens/SSPlus';
 import Rewards from './components/screens/Rewards';
 import Account from './components/screens/Account';
+import AccountScreen from './components/screens/AccountScreen';
+import EditProfile from './components/screens/EditProfile';
+import BookingScreen from './components/screens/BookingScreen';
+import HelpScreen from './components/screens/HelpScreen';
+import NativeDeviceScreen from './components/screens/NativeDeviceScreen';
+import Wallet from './components/screens/Wallet';
+import PlusMembershipScreen from './components/screens/PlusMembershipScreen';
+import RatingScreen from './components/screens/RatingScreen';
+import ManageAddressesScreen from './components/screens/ManageAddressScreen';
+import ManagePaymentScreen from './components/screens/ManagePaymentScreen';
+import  SettingsScreen from './components/screens/SettingsScreen';
+import ScheduledBookingsScreen from './components/screens/ScheduledBookingScreen';
+import AboutScreen from './components/screens/AboutScreen';
+import HelpAccountScreen from './components/screens/HelpAccountScreen';
+import SafetyMeasuresScreen from './components/screens/S2Safety';
+import WarrantyScreen from './components/screens/WarrantyScreen';
+import GettingStartedScreen from './components/screens/GettingStarted';
+import ChangePhoneNumberScreen from './components/screens/changePhoneNO';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -89,6 +107,24 @@ function App() {
         <Stack.Screen name="Forgott1" component={Forgott1} options={{ headerShown: false }} />
         <Stack.Screen name="Forgott2" component={Forgott2} options={{ headerShown: false }} />
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="Account" component={AccountScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="Booking" component={BookingScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="NativeDevice" component={NativeDeviceScreen} />
+        <Stack.Screen name="Wallet" component={Wallet} />
+        <Stack.Screen name="PlusMembership" component={PlusMembershipScreen} />
+        <Stack.Screen name="Rating" component={RatingScreen} />
+        <Stack.Screen name="ManageAddresses" component={ManageAddressesScreen} />
+        <Stack.Screen name="ManagePayment" component={ManagePaymentScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="ScheduledBookings" component={ScheduledBookingsScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
+        <Stack.Screen name="HelpAccount" component={HelpAccountScreen} />
+        <Stack.Screen name="SafetyMeasures" component={SafetyMeasuresScreen} />
+        <Stack.Screen name="Warranty" component={WarrantyScreen} />
+        <Stack.Screen name="GettingStarted" component={GettingStartedScreen} />
+        <Stack.Screen name="ChangePhoneNumber" component={ChangePhoneNumberScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
