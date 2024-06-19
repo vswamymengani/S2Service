@@ -10,7 +10,7 @@ const HelpAccountScreen = ({ navigation }) => {
       </TouchableOpacity>
       <Text style={styles.header}>Account</Text>
       <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={styles.item} onPress={() => {/* Handle navigation or action */}}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('EditProfile')}>
           <Text style={styles.itemText}>I want to change my phone number</Text>
           <Ionicons name="chevron-forward" size={24} color="black" style={styles.rightIcon} />
         </TouchableOpacity>
