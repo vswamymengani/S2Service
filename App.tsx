@@ -2,8 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { Image, StyleSheet } from 'react-native';
 
 import Homeicon from './components/assets/Homeicon.png';
 import bookingicon from './components/assets/bookingicon.png';
@@ -12,6 +11,8 @@ import rewardsicon from './components/assets/rewardsicon.png';
 import accounticon from './components/assets/accounticon.png';
 import Welcome from './components/screens/Welcome';
 import Login from './components/screens/Login';
+import LoginTech from './components/screens/LoginTech';
+import LoginAdmin from './components/screens/LoginAdmin';
 import Form from './components/screens/Form';
 import Forgott from './components/screens/Forgott';
 import Forgott1 from './components/screens/Forgott1';
@@ -24,7 +25,7 @@ import Rewards from './components/screens/Rewards';
 import Account from './components/screens/Account';
 import HelpScreen from './components/screens/HelpScreen';
 import EditProfile from './components/screens/EditProfile';
-import HelpAccountScreen from './components/screens/HelpAccountScreen ';
+//import HelpAccountScreen from './components/screens/HelpAccountScreen';
 import BookingScreen from './components/screens/BookingScreen';
 import Scheduler from './components/screens/Scheduler';
 import PaymentSummary from './components/screens/PaymentSummary';
@@ -36,20 +37,16 @@ import ManagePayment from './components/screens/ManagePayment';
 import NativeDevice from './components/screens/NativeDevice';
 import PlusMembershipScreen from './components/screens/PlusMembershipScreen';
 import RatingScreen from './components/screens/RatingScreen';
-//import WarrantyScreen from './components/screens/WarrantyScreen';
-
+// import WarrantyScreen from './components/screens/WarrantyScreen';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
-const onSelect = (country: any) => {
-  console.log(country);
-};
-
-// Create Tab Navigator
 const Tab = createBottomTabNavigator();
 
 // MainTabs component for the bottom tab navigation
-function MainTabs() {
+function MainTabs({ route }) {
+  const { email } = route.params || {}; // Destructure email from route params with a default value
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -75,10 +72,9 @@ function MainTabs() {
         name="Bookings"
         component={Bookings}
         options={{
-         
           tabBarIcon: ({ color, size }) => (
             <Image source={bookingicon} style={styles.Homeicon} />
-            ),
+          ),
           tabBarLabel: 'Bookings',
         }}
       />
@@ -111,6 +107,7 @@ function MainTabs() {
           ),
           tabBarLabel: 'Account',
         }}
+        initialParams={{ email }} // Pass the email parameter to the Account screen
       />
     </Tab.Navigator>
   );
@@ -123,6 +120,8 @@ function App() {
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginTech" component={LoginTech} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Form" component={Form} options={{ headerShown: false }} />
         <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Forgott" component={Forgott} options={{ headerShown: false }} />
@@ -131,7 +130,7 @@ function App() {
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} options={{ headerShown: false }} />
         <Stack.Screen name="HelpScreen" component={HelpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-        <Stack.Screen name="HelpAccountScreen" component={HelpAccountScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="HelpAccountScreen" component={HelpAccountScreen} options={{ headerShown: false }} /> */}
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: false }} />
         <Stack.Screen name="PaymentSummary" component={PaymentSummary} options={{ headerShown: false }} />
         <Stack.Screen name="PaymentMethod" component={PaymentMethod} options={{ headerShown: false }} />
@@ -142,37 +141,32 @@ function App() {
         <Stack.Screen name="NativeDevice" component={NativeDevice} options={{ headerShown: false }} />
         <Stack.Screen name="PlusMembershipScreen" component={PlusMembershipScreen} options={{ headerShown: false }} />
         <Stack.Screen name="RatingScreen" component={RatingScreen} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} />
-         */}
-        <Stack.Screen 
-          name="BookingScreen" 
-          component={BookingScreen} 
+        {/* <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} /> */}
+        <Stack.Screen
+          name="BookingScreen"
+          component={BookingScreen}
           options={({ navigation }) => ({
-           
             headerShown: true,
           })}
         />
-        <Stack.Screen 
-          name="SSPlus" 
-          component={SSPlus} 
+        <Stack.Screen
+          name="SSPlus"
+          component={SSPlus}
           options={({ navigation }) => ({
-           
             headerShown: true,
           })}
         />
-        <Stack.Screen 
-          name="Rewards" 
-          component={Rewards} 
+        <Stack.Screen
+          name="Rewards"
+          component={Rewards}
           options={({ navigation }) => ({
-          
             headerShown: true,
           })}
         />
-        <Stack.Screen 
-          name="Account" 
-          component={Account} 
+        <Stack.Screen
+          name="Account"
+          component={Account}
           options={({ navigation }) => ({
-        
             headerShown: true,
           })}
         />
@@ -188,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default App;

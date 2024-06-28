@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import axios from 'axios';
 
-const EditProfile = ({ navigation }) => {
+const EditProfile = ({ navigation, route }) => {
+  const email = route.params.email; // Get the email from route params
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [userEmail, setUserEmail] = useState(''); // Renamed to avoid confusion with the email parameter
   const [countryCode, setCountryCode] = useState('IN');
   const [callingCode, setCallingCode] = useState('91');
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [profile, setProfile] = useState({});
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,12 +23,35 @@ const EditProfile = ({ navigation }) => {
     return phoneRegex.test(phone);
   };
 
-  const handleUpdate = () => {
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`http://10.0.2.2:3000/profile?email=${email}`);
+        
+        console.log('API Response:', response.data); // Debug log
+
+        if (response.data.success) {
+          setProfile(response.data.profile);
+          setName(response.data.profile.fullname);
+          setUserEmail(response.data.profile.email);
+          setPhone(response.data.profile.mobile);
+        } else {
+          console.error('API Error:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [email]);
+
+  const handleUpdate = async () => {
     if (!name) {
       setErrorMessage('Full Name is required.');
       return;
     }
-    if (!email || !validateEmail(email)) {
+    if (!userEmail || !validateEmail(userEmail)) {
       setErrorMessage('A valid Email Address is required.');
       return;
     }
@@ -33,43 +59,70 @@ const EditProfile = ({ navigation }) => {
       setErrorMessage('A valid Phone Number is required.');
       return;
     }
-
+  
     setErrorMessage('');
-    console.log('Profile updated:', { name, email, phone });
-    setModalVisible(true); // Show the modal after updating
+  
+    try {
+      const response = await axios.put('http://10.0.2.2:3000/updateProfile', {
+        email,
+        name,
+        userEmail,
+        phone,
+        countryCode,
+        callingCode
+      });
+  
+      if (response.data.success) {
+        console.log('Profile updated successfully');
+        setModalVisible(true); // Show the modal after updating
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setErrorMessage('Failed to update profile. Please try again.');
+    }
   };
+  
 
   const handleCloseModal = () => {
     setModalVisible(false);
-    navigation.goBack(); // Go back to the previous screen after updating and closing the modal
+    navigation.navigate('Account',{email}); // Go back to the previous screen after updating and closing the modal
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Edit Profile</Text>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      <Text style={styles.label}>Full Name</Text>
+            
       <TextInput
         style={styles.input}
         placeholder="Full Name"
         value={name}
         onChangeText={setName}
       />
+      <Text style={styles.label}>Email</Text>
+            
       <TextInput
         style={styles.input}
-        placeholder="Email Address"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="Email"
+        value={userEmail}
+        onChangeText={setUserEmail}
         keyboardType="email-address"
       />
+      <Text style={styles.label}>Phone</Text>
+            
       <View style={styles.phoneContainer}>
         <Text style={styles.callingCode}>+{callingCode}</Text>
         <TextInput
           style={[styles.input, styles.phoneInput]}
-          placeholder="Phone Number"
+          placeholder="Phone"
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
         />
+        
       </View>
       <TouchableOpacity style={styles.button} onPress={handleUpdate}>
         <Text style={styles.buttonText}>Update Now</Text>
@@ -106,6 +159,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color:'#a30b9e',
   },
+  label: {
+    fontSize: 16,
+    marginBottom: 10,
+    color:'black',
+    fontWeight:'450'
+  },
   input: {
     height: 50,
     borderColor: '#ddd',
@@ -113,6 +172,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
+    color:'black',
+    fontWeight:'bold'
   },
   phoneContainer: {
     flexDirection: 'row',
@@ -173,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditProfile;
+export default EditProfile;

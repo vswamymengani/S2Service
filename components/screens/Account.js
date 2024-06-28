@@ -1,9 +1,33 @@
-import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import gift1 from '../assets/gift1.jpeg';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
-const Account = ({ navigation }) => {
+const Account = ({ navigation, route }) => {
+  const [profile, setProfile] = useState({ fullname: '', mobile: '' });
+  const email = route.params.email;
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`http://10.0.2.2:3000/profile?email=${email}`);
+        
+        console.log('API Response:', response.data); // Debug log
+
+        if (response.data.success) {
+          setProfile(response.data.profile);
+        } else {
+          console.error('API Error:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [email]);
+
   const handleLogout = () => {
     Alert.alert(
       "Confirm Logout",
@@ -32,20 +56,20 @@ const Account = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerText}>
-          <Text style={styles.name}>Raghav</Text>
-          <Text style={styles.phone}>+91 9381973549</Text>
+          <Text style={styles.name}>{profile.fullname}</Text>
+          <Text style={styles.phone}>{profile.mobile}</Text>
         </View>
         <TouchableOpacity
           style={styles.editIcon}
-          onPress={() => navigation.navigate('EditProfile')}>
-          <Icon name="mode-edit" size={24} color="black" />
+          onPress={() => navigation.navigate('EditProfile',{email})}>
+          <Icon name="mode-edit" size={24} color="#721bde" />
         </TouchableOpacity>
       </View>
 
       <View>
         <TouchableOpacity style={styles.item} onPress={handleMyBookingsPress}>
           <View style={styles.subItem}>
-            <Icon name="book" size={24} color="black" style={styles.icon} />
+            <Icon name="book" size={24} color="red" style={styles.icon} />
             <Text style={styles.itemText}>My bookings</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -53,7 +77,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={handleHelpCenterPress}>
           <View style={styles.subItem}>
-            <Icon name="headset-mic" size={24} color="black" style={styles.icon} />
+            <Icon name="headset-mic" size={24} color="blue" style={styles.icon} />
             <Text style={styles.itemText}>Help center</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -61,7 +85,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('NativeDevice')}>
           <View style={styles.subItem}>
-            <Icon name="devices" size={24} color="black" style={styles.icon} />
+            <Icon name="devices" size={24} color="#c20c15" style={styles.icon} />
             <Text style={styles.itemText}>Native devices</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -69,7 +93,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item}>
           <View style={styles.subItem}>
-            <Icon name="account-balance-wallet" size={24} color="black" style={styles.icon} />
+            <Icon name="account-balance-wallet" size={24} color="#a10b7b" style={styles.icon} />
             <Text style={styles.itemText}>Wallet</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -77,7 +101,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('PlusMembershipScreen')}>
           <View style={styles.subItem}>
-            <Icon name="wallet-membership" size={24} color="black" style={styles.icon} />
+            <Icon name="wallet-membership" size={24} color="#ed09de" style={styles.icon} />
             <Text style={styles.itemText}>Plus membership</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -85,7 +109,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('RatingScreen')}>
           <View style={styles.subItem}>
-            <Icon name="star" size={24} color="black" style={styles.icon} />
+            <Icon name="star" size={24} color="#bced09" style={styles.icon} />
             <Text style={styles.itemText}>My rating</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -93,7 +117,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('ManageAddress')}>
           <View style={styles.subItem}>
-            <Icon name="location-on" size={24} color="black" style={styles.icon} />
+            <Icon name="location-on" size={24} color="#8309ed" style={styles.icon} />
             <Text style={styles.itemText}>Manage addresses</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -101,7 +125,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('ManagePayment')}>
           <View style={styles.subItem}>
-            <Icon name="payment" size={24} color="black" style={styles.icon} />
+            <Icon name="payment" size={24} color="#e61997" style={styles.icon} />
             <Text style={styles.itemText}>Manage payment methods</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -109,7 +133,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item}>
           <View style={styles.subItem}>
-            <Icon name="settings" size={24} color="black" style={styles.icon} />
+            <Icon name="settings" size={24} color="#3d3339" style={styles.icon} />
             <Text style={styles.itemText}>Settings</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -117,7 +141,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item}>
           <View style={styles.subItem}>
-            <Icon name="schedule" size={24} color="black" style={styles.icon} />
+            <Icon name="schedule" size={24} color="#09ba88" style={styles.icon} />
             <Text style={styles.itemText}>Scheduled bookings</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -125,7 +149,7 @@ const Account = ({ navigation }) => {
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('AboutScreen')}>
           <View style={styles.subItem}>
-            <Icon name="info" size={24} color="black" style={styles.icon} />
+            <Icon name="info" size={24} color="#112d2e" style={styles.icon} />
             <Text style={styles.itemText}>About S2S</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -133,7 +157,7 @@ const Account = ({ navigation }) => {
         
         <TouchableOpacity style={styles.item} onPress={handleLogout}>
           <View style={styles.subItem}>
-            <Icon name="logout" size={24} color="black" style={styles.icon} />
+            <Icon name="logout" size={24} color="#d90b0b" style={styles.icon} />
             <Text style={styles.itemText}>Logout</Text>
           </View>
           <Icon name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
@@ -143,8 +167,7 @@ const Account = ({ navigation }) => {
       <View style={styles.referralContainer}>
         <Text style={styles.referralTitle}>Refer & earn ₹100</Text>
         <Text style={styles.referralSubtitle}>Get ₹100 when your friend</Text>
-        <Image source={{ uri: 'https://link.to/gift-image.png' }} style={styles.referralImage} />
-        <Image source={gift1} style={styles.referralImage} />
+        {/* <Image source={gift1} style={styles.referralImage} /> */}
         <TouchableOpacity style={styles.referButton} onPress={''}>
           <Text style={styles.referButtonText}>Refer Now</Text>
         </TouchableOpacity>
@@ -251,7 +274,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-  },
+  },
 });
+
 
 export default Account;

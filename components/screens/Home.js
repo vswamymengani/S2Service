@@ -45,6 +45,7 @@ const personalServices = [
 ];
 
 const Home = ({ navigation }) => {
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [filteredTrendingServices, setFilteredTrendingServices] = useState(trendingServices);
@@ -67,7 +68,7 @@ const Home = ({ navigation }) => {
     setFilteredPersonalServices(filteredPersonal);
   };
 
-  const noServicesAvailable = 
+  const noServicesAvailable =
     filteredTrendingServices.length === 0 &&
     filteredHomeServices.length === 0 &&
     filteredPersonalServices.length === 0;
@@ -99,7 +100,6 @@ const Home = ({ navigation }) => {
           onChangeText={handleSearch}
         />
       </View>
-
       <Text style={styles.headingText1}>
         {'\u2605'} Save 15% on Every Service
       </Text>
@@ -112,9 +112,9 @@ const Home = ({ navigation }) => {
       ) : (
         <>
           {filteredTrendingServices.length > 0 && (
-            <>
+            <View style={styles.sectionContainer}>
               <Text style={styles.headingText2}>Trending Services</Text>
-              <View style={styles.squareRow}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScroll}>
                 {filteredTrendingServices.map((service, index) => (
                   <TouchableOpacity
                     key={index}
@@ -124,14 +124,14 @@ const Home = ({ navigation }) => {
                     <Text style={styles.loginButtonText}>{service.name}</Text>
                   </TouchableOpacity>
                 ))}
-              </View>
-            </>
+              </ScrollView>
+            </View>
           )}
 
           {filteredHomeServices.length > 0 && (
-            <>
+            <View style={styles.sectionContainer}>
               <Text style={styles.headingText2}>Home Services</Text>
-              <View style={styles.squareRow}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScroll}>
                 {filteredHomeServices.map((service, index) => (
                   <TouchableOpacity
                     key={index}
@@ -141,14 +141,14 @@ const Home = ({ navigation }) => {
                     <Text style={styles.loginButtonText}>{service.name}</Text>
                   </TouchableOpacity>
                 ))}
-              </View>
-            </>
+              </ScrollView>
+            </View>
           )}
 
           {filteredPersonalServices.length > 0 && (
-            <>
+            <View style={styles.sectionContainer}>
               <Text style={styles.headingText2}>Personal Services</Text>
-              <View style={styles.squareRow}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScroll}>
                 {filteredPersonalServices.map((service, index) => (
                   <TouchableOpacity
                     key={index}
@@ -158,48 +158,48 @@ const Home = ({ navigation }) => {
                     <Text style={styles.loginButtonText}>{service.name}</Text>
                   </TouchableOpacity>
                 ))}
-              </View>
-            </>
+              </ScrollView>
+            </View>
           )}
         </>
       )}
     </ScrollView>
   );
+
 };
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#F3F4F6',
+    paddingBottom: 20,
   },
   headingText1: {
     fontSize: 20,
     fontWeight: 'bold',
-    top: 20,
+    top: 0,
     textAlign: 'center',
-    left: -40,
-    marginTop: 120,
-    marginBottom: 20,
+    marginTop: 100,
+    marginBottom: 0,
     color: 'blue',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    top: 50,
+    top: 0,
     left: 20,
-    width: 350,
+    right: 20,
     height: 50,
     backgroundColor: 'white',
     borderRadius: 8,
     paddingHorizontal: 10,
-    bottom: 40,
-    marginTop: 20,
+    zIndex: 1,
+    marginTop: 30,
   },
   iconContainer: {
-    marginRight: 10,
+    paddingRight: 10,
+   
   },
   searchInput: {
     flex: 1,
@@ -208,19 +208,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   welcomeBox: {
-    marginLeft: 0,
-    borderRadius: 12,
-    borderWidth: 0,
-    padding: 10,
-    bottom: 80,
-    marginBottom: 100,
-    marginTop: 100,
+    alignItems: 'center',
+    marginVertical: 20,
   },
   headingText2: {
     fontSize: 23,
     fontWeight: 'bold',
-    bottom: 150,
-    right: 100,
+    marginVertical: 10,
     color: 'black',
   },
   noServicesText: {
@@ -229,12 +223,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
-  squareRow: {
+  sectionContainer: {
+    marginVertical: 10,
+    
+    
+  },
+  horizontalScroll: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    bottom: 130,
-    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  square: {
+    width: 80,
+    height: 110,
+    marginHorizontal: -0,
+    borderRadius: -20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding:0,
+  },
+  squareImage: {
+    width: 60,
+    height: 60,
   },
   loginButtonText: {
     fontSize: 15,
@@ -242,19 +252,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 5,
-  },
-  square: {
-    width: 100,
-    height: 120,
-    margin: 10,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 0,
-  },
-  squareImage: {
-    width: 80,
-    height: 80,
   },
 });
 

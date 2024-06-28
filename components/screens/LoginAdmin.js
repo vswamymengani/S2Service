@@ -6,7 +6,7 @@ import Image6 from '../assets/slogo.png';
 import fblogo from '../assets/Fblogo.jpg';
 import glogo from '../assets/Glogo.jpg';
 
-const Login = () => {
+const LoginAdmin = () => {
   const MainTabs = ({ route }) => {
     const { email } = route.params;
   
@@ -31,16 +31,15 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = () => {
+  const handleLogin2 = () => {
     if (validateForm()) {
-      axios.post('http://10.0.2.2:3000/logincustomer', {
+      axios.post('http://10.0.2.2:3000/loginadmin', {
         email,
         password,
       })
         .then(response => {
           if (response.data.Status === "Success") {
             // Successfully logged in
-            
             navigation.push('MainTabs', { email }); // Pass email to MainTabs screen
           } else {
             // Handle error responses from the server
@@ -55,7 +54,7 @@ const Login = () => {
         });
     }
   };
-
+  
   const clearError = (field) => {
     setErrors((prevErrors) => {
       const newErrors = { ...prevErrors };
@@ -107,7 +106,7 @@ const Login = () => {
             <Text style={styles.forgotPasswordText}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin2}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.orContainer}>
@@ -262,4 +261,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default LoginAdmin;
