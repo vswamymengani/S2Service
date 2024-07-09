@@ -119,7 +119,23 @@ const Home = ({ navigation }) => {
                   <TouchableOpacity
                     key={index}
                     style={styles.square}
-                    onPress={() => navigation.navigate('ServiceDetails', { serviceName: service.name })}>
+                    onPress={() => {
+                      if (service.name === 'TV Installing') {
+                        navigation.navigate('TvInstallScreen');
+                      } else if (service.name === 'Washing') {
+                        navigation.navigate('WashingScreen');
+                      } else if (service.name === 'Bleach & Detan') {
+                        navigation.navigate('Bleach');
+                      } else if (service.name === 'Head Massage') {
+                        navigation.navigate('TVInstallingScreen');
+                      } else if (service.name === 'Hair Care') {
+                        navigation.navigate('TVInstallingScreen');
+                      } else if (service.name === 'AC Repair') {
+                        navigation.navigate('ServiceDetails');
+                      } else {
+                        navigation.navigate('ServiceDetails', { serviceName: service.name });
+                      }
+                    }}>
                     <Image source={service.image} style={styles.squareImage} />
                     <Text style={styles.loginButtonText}>{service.name}</Text>
                   </TouchableOpacity>
@@ -255,4 +271,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Home;

@@ -25,7 +25,6 @@ import Rewards from './components/screens/Rewards';
 import Account from './components/screens/Account';
 import HelpScreen from './components/screens/HelpScreen';
 import EditProfile from './components/screens/EditProfile';
-//import HelpAccountScreen from './components/screens/HelpAccountScreen';
 import BookingScreen from './components/screens/BookingScreen';
 import Scheduler from './components/screens/Scheduler';
 import PaymentSummary from './components/screens/PaymentSummary';
@@ -37,7 +36,15 @@ import ManagePayment from './components/screens/ManagePayment';
 import NativeDevice from './components/screens/NativeDevice';
 import PlusMembershipScreen from './components/screens/PlusMembershipScreen';
 import RatingScreen from './components/screens/RatingScreen';
-// import WarrantyScreen from './components/screens/WarrantyScreen';
+import Accountscreen from './components/screens/Accountscreen';
+import TvInstallScreen from './components/screens/TvInstallScreen';
+import WashingScreen from './components/screens/WashingScreen';
+import Bleach from './components/screens/Bleach';
+import GettingStartedScreen from './components/screens/GettingStartedScreen';
+import SafetyMeasuresScreen from './components/screens/SafetyMeasuresScreen';
+import ChangePhoneNumberScreen from './components/screens/ChangePhoneNumberScreen';
+
+ import WarrantyScreen from './components/screens/WarrantyScreen';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -130,7 +137,6 @@ function App() {
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} options={{ headerShown: false }} />
         <Stack.Screen name="HelpScreen" component={HelpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="HelpAccountScreen" component={HelpAccountScreen} options={{ headerShown: false }} /> */}
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: false }} />
         <Stack.Screen name="PaymentSummary" component={PaymentSummary} options={{ headerShown: false }} />
         <Stack.Screen name="PaymentMethod" component={PaymentMethod} options={{ headerShown: false }} />
@@ -141,7 +147,15 @@ function App() {
         <Stack.Screen name="NativeDevice" component={NativeDevice} options={{ headerShown: false }} />
         <Stack.Screen name="PlusMembershipScreen" component={PlusMembershipScreen} options={{ headerShown: false }} />
         <Stack.Screen name="RatingScreen" component={RatingScreen} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} /> */}
+         <Stack.Screen name="Accountscreen" component={Accountscreen} options={{ headerShown: false }} />
+         <Stack.Screen name="TvInstallScreen" component={TvInstallScreen} options={{ headerShown: false }} />
+         <Stack.Screen name="WashingScreen" component={WashingScreen} options={{ headerShown: false }} />
+         <Stack.Screen name="Bleach" component={Bleach} options={{ headerShown: false }} />
+         <Stack.Screen name="GettingStartedScreen" component={GettingStartedScreen} options={{ headerShown: false }} />
+         <Stack.Screen name="SafetyMeasuresScreen" component={SafetyMeasuresScreen} options={{ headerShown: false }} />
+         <Stack.Screen name="ChangePhoneNumberScreen" component={ChangePhoneNumberScreen} options={{ headerShown: false }} />
+        
+        <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="BookingScreen"
           component={BookingScreen}

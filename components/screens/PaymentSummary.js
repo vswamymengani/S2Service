@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Modal } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PaymentSummary = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
@@ -39,6 +40,10 @@ const PaymentSummary = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* Coupons and Offers */}
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </TouchableOpacity>
+      
       <TouchableOpacity style={styles.sectionContainer} onPress={handleShowModal}>
         <Text style={styles.sectionTitle}>Coupons and Offers</Text>
         <Text style={styles.offerText}>{selectedOffer ? `${selectedOffer} Applied` : '1 offer >'}</Text>
@@ -127,10 +132,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color:'red'
   },
   offerText: {
     fontSize: 18,
     marginBottom: 10,
+    color:'blue'
   },
   row: {
     flexDirection: 'row',
@@ -157,9 +164,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   proceedButton: {
-    backgroundColor: '#28a745',
+    backgroundColor: 'blue',
     paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 18,
     marginTop: 20,
   },
   proceedButtonText: {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
-
+import abc from '../assets/gift1.png';
 const Account = ({ navigation, route }) => {
   const [profile, setProfile] = useState({ fullname: '', mobile: '' });
   const email = route.params.email;
@@ -167,7 +167,7 @@ const Account = ({ navigation, route }) => {
       <View style={styles.referralContainer}>
         <Text style={styles.referralTitle}>Refer & earn ₹100</Text>
         <Text style={styles.referralSubtitle}>Get ₹100 when your friend</Text>
-        {/* <Image source={gift1} style={styles.referralImage} /> */}
+         <Image source={abc} style={styles.referralImage} /> 
         <TouchableOpacity style={styles.referButton} onPress={''}>
           <Text style={styles.referButtonText}>Refer Now</Text>
         </TouchableOpacity>

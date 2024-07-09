@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Scheduler = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -50,6 +51,10 @@ const Scheduler = () => {
 
   return (
     <View style={styles.container}>
+       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </TouchableOpacity>
+     
       <Text style={styles.label}>When would you like professionals to serve you?</Text>
       <TouchableOpacity style={styles.button} onPress={showDatePickerModal}>
         <Text style={styles.buttonText}>{formatDate(selectedDate)}</Text>
@@ -99,6 +104,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     textAlign: 'center',
+  },
+  backButton: {
+    marginBottom: 16,
+    bottom:170,
+    right:150,
   },
   button: {
     backgroundColor: '#007BFF',

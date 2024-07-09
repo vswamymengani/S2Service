@@ -6,6 +6,7 @@ import googlePayImage from '../assets/Gpay.jpg';
 import paytmwallet from '../assets/Paytm.jpg';
 import amazonepay from '../assets/Amazonpay.jpg';
 import upiImage from '../assets/Upi.jpg';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PaymentMethod = ({ route, navigation }) => {
   const { totalAmount } = route.params;
@@ -41,21 +42,21 @@ const PaymentMethod = ({ route, navigation }) => {
           if (validateUPIID()) {
             console.log('Proceed with UPI payment using UPI ID:', enteredUPIID);
             Alert.alert('Payment Successful', `Amount ₹${totalAmount} has been successfully processed.`);
-            navigation.goBack();
+            navigation.navigate('Home');
           } else {
             Alert.alert('Invalid UPI ID', 'Please enter a valid UPI ID');
           }
         } else {
           console.log('Proceed with UPI payment using:', selectedUPIApp);
           Alert.alert('Payment Successful', `Amount ₹${totalAmount} has been successfully processed.`);
-          navigation.goBack();
+          navigation.navigate('Home');
         }
         break;
       case 'wallet':
         if (selectedWallet === 'paytm' || selectedWallet === 'amazonpay') {
           console.log('Proceed with Wallet payment using:', selectedWallet);
           Alert.alert('Payment Successful', `Amount ₹${totalAmount} has been successfully processed.`);
-          navigation.goBack();
+          navigation.navigate('Home');
         } else {
           Alert.alert('Select Wallet', 'Please select a wallet option');
         }
@@ -88,7 +89,7 @@ const PaymentMethod = ({ route, navigation }) => {
       console.log('OTP entered:', otpValue);
       setOtpModalVisible(false);
       Alert.alert('Payment Successful', `Amount ₹${totalAmount} has been successfully processed.`);
-      navigation.goBack();
+      navigation.navigate('Home');
     } else {
       Alert.alert('Invalid OTP', 'Please enter a valid OTP');
     }
@@ -96,6 +97,10 @@ const PaymentMethod = ({ route, navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </TouchableOpacity>
+     
       <Text style={styles.header}>Select payment method</Text>
 
       <View style={styles.amountContainer}>
@@ -348,19 +353,26 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: '#F3F4F6',
+   
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: -10,
+    bottom:40,
+    top:-25,
+    
+    color:'blue'
   },
   amountContainer: {
     alignItems: 'center',
     marginBottom: 20,
+    color: 'red'
   },
   amountText: {
     fontSize: 18,
+    color: 'red'
   },
   section: {
     marginBottom: 20,
@@ -384,12 +396,13 @@ const styles = StyleSheet.create({
     borderColor: '#28a745',
   },
   paymentLogo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     marginRight: 10,
   },
   optionText: {
     fontSize: 16,
+    fontWeight:'bold'
   },
   cardForm: {
     marginTop: 10,
@@ -407,10 +420,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   proceedButton: {
-    backgroundColor: '#28a745',
+    backgroundColor: 'blue',
     paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 20,
+    borderRadius: 18,
+    marginTop: 0,
   },
   proceedButtonText: {
     fontSize: 18,

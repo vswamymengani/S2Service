@@ -1,50 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
 
-const HelpScreen = ({ navigation }) => {
+const HelpScreen = ({ navigation,route }) => {
+  // const email = route.params.email;
+  const navigateToScreen = (screenName) => {
+    navigation.navigate(screenName);
+  };
+
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const response = await axios.get(`http://10.0.2.2:3000/profile?email=${email}`);
+        
+  //       console.log('API Response:', response.data); // Debug log
+
+  //       if (response.data.success) {
+  //         setProfile(response.data.profile);
+  //       } else {
+  //         console.error('API Error:', response.data.message);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user profile:', error);
+  //     }
+  //   };
+
+  //   fetchProfile();
+  // }, [email]);
+
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
       <Text style={styles.header}>How can we help you?</Text>
       <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('HelpAccountScreen')}>
-          <Ionicons name="person-outline" size={24} color="black" />
-          <Text style={styles.itemText}>Account</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('GettingStarted')}>
-          <Ionicons name="gift-outline" size={24} color="black" />
-          <Text style={styles.itemText}>Getting started with S2S</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Payment')}>
-          <Ionicons name="card-outline" size={24} color="black" />
-          <Text style={styles.itemText}>Payment & S2S Credits</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('UCPlusMembership')}>
-          <Ionicons name="medal-outline" size={24} color="black" />
-          <Text style={styles.itemText}>S2S Plus Membership</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('UCSafety')}>
-          <Ionicons name="shield-outline" size={24} color="black" />
-          <Text style={styles.itemText}>S2S Safety</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('WarrantyScreen')}>
-          <Ionicons name="shield-checkmark-outline" size={24} color="black" />
-          <Text style={styles.itemText}>Warranty</Text>
-          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" style={styles.rightIcon} />
-        </TouchableOpacity>
+        <HelpItem icon="person-outline" text="Account" onPress={() => navigateToScreen('Accountscreen')} />
+        <HelpItem icon="gift-outline" text="Getting started with S2-SERVICES" onPress={() => navigateToScreen('GettingStarted')} />
+        <HelpItem icon="card-outline" text="Payment & Credits" onPress={() => navigateToScreen('Payment')} />
+        <HelpItem icon="medal-outline" text="S2-SERVICES Plus Membership" onPress={() => navigateToScreen('PlusMembershipScreen')} />
+        <HelpItem icon="shield-outline" text="S2-SERVICES Safety" onPress={() => navigateToScreen('SafetyMeasuresScreen')} />
+        <HelpItem icon="shield-checkmark-outline" text="Warranty" onPress={() => navigateToScreen('WarrantyScreen')} />
       </ScrollView>
     </View>
   );
 };
+
+const HelpItem = ({ icon, text, onPress }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
+    <Ionicons name={icon} size={24} color="#333" />
+    <Text style={styles.itemText}>{text}</Text>
+    <MaterialIcons name="keyboard-arrow-right" size={24} color="#333" style={styles.rightIcon} />
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +63,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginVertical: 16,
-    color:'blue',
+    textAlign: 'center',
+    color: '#333',
   },
   content: {
     paddingVertical: 8,
@@ -64,19 +72,19 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
   itemText: {
     fontSize: 18,
-    fontWeight:'bold',
     marginLeft: 16,
-    flex: 1, // Added to push the right arrow to the end
+    flex: 1,
+    color: '#333',
   },
   rightIcon: {
-    marginLeft: 'auto', // Align right arrow to the right end
+    marginLeft: 'auto',
   },
 });
 
-export default HelpScreen;
+export default HelpScreen;
