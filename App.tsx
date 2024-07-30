@@ -43,8 +43,16 @@ import Bleach from './components/screens/Bleach';
 import GettingStartedScreen from './components/screens/GettingStartedScreen';
 import SafetyMeasuresScreen from './components/screens/SafetyMeasuresScreen';
 import ChangePhoneNumberScreen from './components/screens/ChangePhoneNumberScreen';
-
- import WarrantyScreen from './components/screens/WarrantyScreen';
+//import SalonforWomen from './components/screens/SalonforWomen';
+import WarrantyScreen from './components/screens/WarrantyScreen';
+import AC from './components/screens/AC';
+import Chimneyservice from './components/screens/Chimneyservice';
+import GastoveService from './components/screens/GastoveService';
+import ACandAppliance from './components/screens/ACandAppliance';
+import GeyserService from './components/screens/GeyserService';
+import InverterService from './components/screens/InverterService';
+import WaterPurifier from './components/screens/WaterPurifier';
+import LaptopService from './components/screens/LaptopService';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -154,8 +162,18 @@ function App() {
          <Stack.Screen name="GettingStartedScreen" component={GettingStartedScreen} options={{ headerShown: false }} />
          <Stack.Screen name="SafetyMeasuresScreen" component={SafetyMeasuresScreen} options={{ headerShown: false }} />
          <Stack.Screen name="ChangePhoneNumberScreen" component={ChangePhoneNumberScreen} options={{ headerShown: false }} />
-        
+         {/* <Stack.Screen name="SalonforWomen" component={SalonforWomen} options={{ headerShown: false }} />
+         */}
         <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ACandAppliance" component={ACandAppliance} options={{ headerShown: false }} />
+        <Stack.Screen name="AC" component={AC} options={{ headerShown: false }} />
+        <Stack.Screen name="Chimneyservice" component={Chimneyservice} options={{ headerShown: false }} />
+        <Stack.Screen name="GastoveService" component={GastoveService} options={{ headerShown: false }} />
+        <Stack.Screen name="GeyserService" component={GeyserService} options={{ headerShown: false }} />
+        <Stack.Screen name="InverterService" component={InverterService} options={{ headerShown: false }} />
+        <Stack.Screen name="WaterPurifier" component={WaterPurifier} options={{ headerShown: false }} />
+        <Stack.Screen name="LaptopService" component={LaptopService} options={{ headerShown: false }} />
+        
         <Stack.Screen
           name="BookingScreen"
           component={BookingScreen}

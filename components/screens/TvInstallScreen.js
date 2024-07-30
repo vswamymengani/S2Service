@@ -7,7 +7,7 @@ import TvUnstallation from '../assets/TvUnstallation.jpg';
 import Offer from '../assets/Offer.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const TvInstallScreen = ({ navigation }) => {
+const TvInstallScreen = ({ navigation }) => { 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -39,7 +39,7 @@ const TvInstallScreen = ({ navigation }) => {
           <Text style={styles.squareText}>Installation</Text>
         </TouchableOpacity>
 
-        {/* Uninstallation Section */}
+        {/* Uninstallation Section */} 
         <TouchableOpacity
           style={styles.square}
           onPress={() => navigation.navigate('ServiceDetails', { serviceName: 'Uninstallation' })}>

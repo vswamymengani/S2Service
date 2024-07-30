@@ -1,227 +1,113 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Acrepair from '../assets/Acrepair.png';
-import service from '../assets/service.png';
-import gas from '../assets/gas.jpg';
-import install from '../assets/install.jpg';
-import Offer from '../assets/Offer.png';
-// import Image2 from "../assets/BackArrow.png";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
-const ServiceDetails = ({ navigation }) => {
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* <TouchableOpacity style={styles.backArrowContainer} onPress={() => navigation.navigate("Home")}>
-        <Image source={Image2} style={styles.backArrow} />
-      </TouchableOpacity> */}
-       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={28} color="black" />
-      </TouchableOpacity>
+const ServiceDetails = ({ route }) => {
+    const { appliancerepairId } = route.params;
+    const [serviceDetails, setServiceDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const navigation = useNavigation();
 
-      <Image source={Acrepair} style={styles.image} />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>AC Service & Repair</Text>
-        <Text style={styles.ratingText}>
-          {'\u2605'} 4.5 (5.1 M bookings)
-        </Text>
-      </View>
-      
-      <View style={styles.squareRow}>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={service} style={styles.squareImage} />
-          <Text style={styles.squareText}>Service</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={gas} style={styles.squareImage} />
-          <Text style={styles.squareText}>Repair & Gas Refill</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={() => navigation.navigate('')}>
-          <Image source={install} style={styles.squareImage} />
-          <Text style={styles.squareText}>Install & Uninstall</Text>
-        </TouchableOpacity>
-      </View>
+    const fetchServiceDetails = async () => {
+        try {
+            const response = await fetch(`http://10.0.2.2:3000/api/Appliancerepair/${appliancerepairId}`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const data = await response.json();
+            setServiceDetails(data);
+        } catch (error) {
+            console.error('Error fetching service details:', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      <Image source={Offer} style={styles.offerImage} />
-      <Text style={styles.offerText}>Service</Text>
+    useEffect(() => {
+        fetchServiceDetails();
+    }, []);
 
-      <Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
-      <Text style={styles.ratingText1}>
-        {'\u2605'} 4.5 (84.2k reviews)
-      </Text>
-      <Text style={styles.prize}>
-        Starts at ₹1000.
-      </Text>
-      <Text style={styles.point}>
-        AC service with advanced foam-jet technology.
-      </Text>
-      <Text style={styles.offerText}>Repair & Gas Refill</Text>
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>Loading...</Text>
+            </View>
+        );
+    }
 
-      <Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
-      <Text style={styles.ratingText1}>
-        {'\u2605'} 4.9 (80.2k reviews)
-      </Text>
-      <Text style={styles.prize}>
-        Starts at ₹1500.
-      </Text>
-      <Text style={styles.point}>
-        AC service with advanced foam-jet technology.
-      </Text>
-      
-      <Text style={styles.offerText}>Installing</Text>
+    if (!serviceDetails) {
+        return (
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>Services you are looking for are</Text>
+                <Text style={styles.loadingText}>currently not live in this location</Text>
+               
+                <Text style={styles.loadingText1}>Please change location or explore other</Text>
+                <Text style={styles.loadingText1}>services on our homepage</Text>
+                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Home')}>
+                    <Text style={styles.loginButtonText}>Go to homepage</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
-<Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
-<Text style={styles.ratingText1}>
-  {'\u2605'} 4.3 (70.2k reviews)
-</Text>
-<Text style={styles.prize}>
-  Starts at ₹900.
-</Text>
-<Text style={styles.point}>
-  AC service with advanced foam-jet technology.
-</Text>
-
-<Text style={styles.offerText}>Uninstalling</Text>
-
-<Text style={styles.warrantyText}>30-DAY WARRANTY</Text>
-<Text style={styles.ratingText1}>
-  {'\u2605'} 4.7 (79.2k reviews)
-</Text>
-<Text style={styles.prize}>
-  Starts at ₹700.
-</Text>
-<Text style={styles.point}>
-  AC service with advanced foam-jet technology.
-</Text>
-
-      <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('Scheduler')}>
-        <Text style={styles.bookbuttonText}>Book</Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.title}>{serviceDetails.name}</Text>
+            <Image
+                source={{ uri: `http://10.0.2.2:3000/api/image/${appliancerepairId}` }}
+                style={styles.image}
+            />
+            <Text style={styles.description}>{serviceDetails.description}</Text>
+            {/* Add other service details here */}
+        </ScrollView>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    alignItems: 'center',
-    backgroundColor: 'white',
-    paddingBottom: 20,
-  },
-  backButton: {
-    
-    justifyContent:'flex-start',
-    right:160,
-  },
-
-  backArrowContainer: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    zIndex: 1,
-  },
-  backArrow: {
-    height: 30,
-    width: 30,
-    tintColor: '#dff516',
-  },
-  image: {
-    width: '100%',
-    height: 180,
-    marginBottom: 45,
-   
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  headerText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: 'blue',
-  },
-  ratingText: {
-    fontSize: 18,
-    color: 'black',
-  },
-  squareRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-    width: '100%',
-  },
-  square: {
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  squareImage: {
-    width: 85,
-    height: 65,
-    marginBottom: 10,
-  },
-  squareText: {
-    fontSize: 15,
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  offerImage: {
-    width: '100%',
-    height: 140,
-    marginBottom: 20,
-  },
-  offerText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'black',
-    textAlign: 'center',
-  },
-  warrantyText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'red',
-    textAlign: 'center',
-    marginVertical: 10,
-  },
-  ratingText1: {
-    fontSize: 18,
-    color: 'black',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  prize: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  point: {
-    fontSize: 18,
-    color: '#ed2fd1',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  bookButton: {
-    width: '80%',
-    height: 50,
-    backgroundColor: 'blue',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  bookbuttonText: {
-    color: 'white',
-    fontSize: 18,
-  },
+    container: {
+        padding: 20,
+        backgroundColor: '#F3F4F6',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    image: {
+        width: '100%',
+        height: 200,
+        marginBottom: 20,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        fontSize: 20,
+        color: 'black',
+        fontWeight: 'bold',
+    },
+    loadingText1: {
+        fontSize: 16,
+        color: 'gray',
+        fontWeight: 'bold',
+    },
+    loginButton: {
+        width: '60%',
+        height: 50,
+        backgroundColor: 'blue',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginTop: 20,
+    },
+    loginButtonText: {
+        fontSize: 18,
+        color: 'white',
+    },
 });
 
 export default ServiceDetails;
