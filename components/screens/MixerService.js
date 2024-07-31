@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Chimneyservice = ({ navigation }) => {
+const MixerService = ({ navigation }) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://10.0.2.2:3000/api/ChimneyService'); // Ensure this matches your API route
+            const response = await fetch('http://10.0.2.2:3000/api/MixerService'); // Ensure this matches your API route
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Chimneyservice;
+export default MixerService;

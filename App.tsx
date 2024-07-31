@@ -53,6 +53,11 @@ import GeyserService from './components/screens/GeyserService';
 import InverterService from './components/screens/InverterService';
 import WaterPurifier from './components/screens/WaterPurifier';
 import LaptopService from './components/screens/LaptopService';
+import MicrowaveService from './components/screens/MicrowaveService';
+import MixerService from './components/screens/MixerService';
+import RefrigeratorService from './components/screens/RefrigeratorService';
+import TVService from './components/screens/TVService';
+import WashingMachineService from './components/screens/WashingMachineService';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -173,6 +178,11 @@ function App() {
         <Stack.Screen name="InverterService" component={InverterService} options={{ headerShown: false }} />
         <Stack.Screen name="WaterPurifier" component={WaterPurifier} options={{ headerShown: false }} />
         <Stack.Screen name="LaptopService" component={LaptopService} options={{ headerShown: false }} />
+        <Stack.Screen name="MicrowaveService" component={MicrowaveService} options={{ headerShown: false }} />
+        <Stack.Screen name="MixerService" component={MixerService} options={{ headerShown: false }} />
+        <Stack.Screen name="RefrigeratorService" component={RefrigeratorService} options={{ headerShown: false }} />
+        <Stack.Screen name="TVService" component={TVService} options={{ headerShown: false }} />
+        <Stack.Screen name="WashingMachineService" component={WashingMachineService} options={{ headerShown: false }} />
         
         <Stack.Screen
           name="BookingScreen"

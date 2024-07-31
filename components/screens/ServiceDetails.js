@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ServiceDetails = ({ route }) => {
     const { appliancerepairId } = route.params;
@@ -36,6 +37,9 @@ const ServiceDetails = ({ route }) => {
     if (!serviceDetails) {
         return (
             <View style={styles.loadingContainer}>
+                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Ionicons name="arrow-back" size={24} color="black" bottom={250}  right={150}/>
+      </TouchableOpacity>
                 <Text style={styles.loadingText}>Services you are looking for are</Text>
                 <Text style={styles.loadingText}>currently not live in this location</Text>
                

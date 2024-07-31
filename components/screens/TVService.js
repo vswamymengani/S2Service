@@ -1,18 +1,18 @@
 import React,  { useState, useEffect }  from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import inverter from '../assets/inverter.jpeg';
+import TV from '../assets/TV.jpeg';
 import Offer from '../assets/Offer.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const InverterService = ({ navigation, route }) => {
+const TVService = ({ navigation, route }) => {
     
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
   
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://10.0.2.2:3000/api/InverterService`);
+            const response = await fetch(`http://10.0.2.2:3000/api/TVService`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);
@@ -40,8 +40,8 @@ const handleServicePress = (service) => {
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-         <Image source={inverter} style={styles.image} />
-       <Text style={styles.title}>Inverter Repair & Service</Text>
+         <Image source={TV} style={styles.image} />
+       <Text style={styles.title}>Television Repair</Text>
        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScroll}>
        <View style={styles.buttonContainer}>
                
@@ -197,4 +197,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default InverterService;
+export default TVService;
