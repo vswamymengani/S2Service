@@ -43,7 +43,6 @@ import Bleach from './components/screens/Bleach';
 import GettingStartedScreen from './components/screens/GettingStartedScreen';
 import SafetyMeasuresScreen from './components/screens/SafetyMeasuresScreen';
 import ChangePhoneNumberScreen from './components/screens/ChangePhoneNumberScreen';
-//import SalonforWomen from './components/screens/SalonforWomen';
 import WarrantyScreen from './components/screens/WarrantyScreen';
 import AC from './components/screens/AC';
 import Chimneyservice from './components/screens/Chimneyservice';
@@ -58,14 +57,14 @@ import MixerService from './components/screens/MixerService';
 import RefrigeratorService from './components/screens/RefrigeratorService';
 import TVService from './components/screens/TVService';
 import WashingMachineService from './components/screens/WashingMachineService';
+import HomeRepair from './components/screens/HomeRepair';
+import Electrician from './components/screens/Electrician';
 
-// Create Stack Navigator
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// MainTabs component for the bottom tab navigation
 function MainTabs({ route }) {
-  const { email } = route.params || {}; // Destructure email from route params with a default value
+  const { email } = route.params || {};
 
   return (
     <Tab.Navigator
@@ -127,13 +126,12 @@ function MainTabs({ route }) {
           ),
           tabBarLabel: 'Account',
         }}
-        initialParams={{ email }} // Pass the email parameter to the Account screen
+        initialParams={{ email }}
       />
     </Tab.Navigator>
   );
 }
 
-// Main App component
 function App() {
   return (
     <NavigationContainer>
@@ -160,15 +158,13 @@ function App() {
         <Stack.Screen name="NativeDevice" component={NativeDevice} options={{ headerShown: false }} />
         <Stack.Screen name="PlusMembershipScreen" component={PlusMembershipScreen} options={{ headerShown: false }} />
         <Stack.Screen name="RatingScreen" component={RatingScreen} options={{ headerShown: false }} />
-         <Stack.Screen name="Accountscreen" component={Accountscreen} options={{ headerShown: false }} />
-         <Stack.Screen name="TvInstallScreen" component={TvInstallScreen} options={{ headerShown: false }} />
-         <Stack.Screen name="WashingScreen" component={WashingScreen} options={{ headerShown: false }} />
-         <Stack.Screen name="Bleach" component={Bleach} options={{ headerShown: false }} />
-         <Stack.Screen name="GettingStartedScreen" component={GettingStartedScreen} options={{ headerShown: false }} />
-         <Stack.Screen name="SafetyMeasuresScreen" component={SafetyMeasuresScreen} options={{ headerShown: false }} />
-         <Stack.Screen name="ChangePhoneNumberScreen" component={ChangePhoneNumberScreen} options={{ headerShown: false }} />
-         {/* <Stack.Screen name="SalonforWomen" component={SalonforWomen} options={{ headerShown: false }} />
-         */}
+        <Stack.Screen name="Accountscreen" component={Accountscreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TvInstallScreen" component={TvInstallScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="WashingScreen" component={WashingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Bleach" component={Bleach} options={{ headerShown: false }} />
+        <Stack.Screen name="GettingStartedScreen" component={GettingStartedScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SafetyMeasuresScreen" component={SafetyMeasuresScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ChangePhoneNumberScreen" component={ChangePhoneNumberScreen} options={{ headerShown: false }} />
         <Stack.Screen name="WarrantyScreen" component={WarrantyScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ACandAppliance" component={ACandAppliance} options={{ headerShown: false }} />
         <Stack.Screen name="AC" component={AC} options={{ headerShown: false }} />
@@ -183,7 +179,8 @@ function App() {
         <Stack.Screen name="RefrigeratorService" component={RefrigeratorService} options={{ headerShown: false }} />
         <Stack.Screen name="TVService" component={TVService} options={{ headerShown: false }} />
         <Stack.Screen name="WashingMachineService" component={WashingMachineService} options={{ headerShown: false }} />
-        
+        <Stack.Screen name="HomeRepair" component={HomeRepair} options={{ headerShown: false }} />
+        <Stack.Screen name="Electrician" component={Electrician} options={{ headerShown: false }} />
         <Stack.Screen
           name="BookingScreen"
           component={BookingScreen}
@@ -224,4 +221,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default App;
