@@ -59,6 +59,10 @@ import TVService from './components/screens/TVService';
 import WashingMachineService from './components/screens/WashingMachineService';
 import HomeRepair from './components/screens/HomeRepair';
 import Electrician from './components/screens/Electrician';
+import PlumberService from './components/screens/PlumberService';
+import CarpenterService from './components/screens/CarpenterService';
+import CleaningService from './components/screens/CleaningService';
+import HomeCleaningService from './components/screens/HomeCleaningService';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -181,6 +185,11 @@ function App() {
         <Stack.Screen name="WashingMachineService" component={WashingMachineService} options={{ headerShown: false }} />
         <Stack.Screen name="HomeRepair" component={HomeRepair} options={{ headerShown: false }} />
         <Stack.Screen name="Electrician" component={Electrician} options={{ headerShown: false }} />
+        <Stack.Screen name="PlumberService" component={PlumberService} options={{ headerShown: false }} />
+        <Stack.Screen name="CarpenterService" component={CarpenterService} options={{ headerShown: false }} />
+        <Stack.Screen name="CleaningService" component={CleaningService} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeCleaningService" component={HomeCleaningService} options={{ headerShown: false }} />
+        
         <Stack.Screen
           name="BookingScreen"
           component={BookingScreen}
