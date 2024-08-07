@@ -63,6 +63,12 @@ import PlumberService from './components/screens/PlumberService';
 import CarpenterService from './components/screens/CarpenterService';
 import CleaningService from './components/screens/CleaningService';
 import HomeCleaningService from './components/screens/HomeCleaningService';
+import KitchenCleanigService from './components/screens/KitchenCleanigService';
+import SofaCleaningService from './components/screens/SofaCleaningService';
+import PestControlService from './components/screens/PestControlService';
+import Cockroachcontrol from './components/screens/Cockroachcontrol';
+import TermiteControl from './components/screens/TermiteControl';
+import BedBugsControl from './components/screens/BedBugsControl';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -189,6 +195,12 @@ function App() {
         <Stack.Screen name="CarpenterService" component={CarpenterService} options={{ headerShown: false }} />
         <Stack.Screen name="CleaningService" component={CleaningService} options={{ headerShown: false }} />
         <Stack.Screen name="HomeCleaningService" component={HomeCleaningService} options={{ headerShown: false }} />
+        <Stack.Screen name="KitchenCleanigService" component={KitchenCleanigService} options={{ headerShown: false }} />
+        <Stack.Screen name="SofaCleaningService" component={SofaCleaningService} options={{ headerShown: false }} />
+        <Stack.Screen name="PestControlService" component={PestControlService} options={{ headerShown: false }} />
+        <Stack.Screen name="Cockroachcontrol" component={Cockroachcontrol} options={{ headerShown: false }} />
+        <Stack.Screen name="TermiteControl" component={TermiteControl} options={{ headerShown: false }} />
+        <Stack.Screen name="BedBugsControl" component={BedBugsControl} options={{ headerShown: false }} />
         
         <Stack.Screen
           name="BookingScreen"
