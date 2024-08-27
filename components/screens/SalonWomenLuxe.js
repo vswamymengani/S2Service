@@ -1,18 +1,18 @@
 import React,  { useState, useEffect }  from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Acrepair from '../assets/Acrepair.png';
+import SalonWomenLuxury from '../assets/SalonWomenLuxury.webp';
 import Offer from '../assets/Offer.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const AC = ({ navigation, route }) => {
+const SalonWomenLuxe = ({ navigation, route }) => {
     
-    const [services, setServices] = useState([]); 
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
   
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://10.0.2.2:3000/api/AC`);
+            const response = await fetch(`http://10.0.2.2:3000/api/SalonWomenLuxe`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);
@@ -40,8 +40,8 @@ const handleServicePress = (service) => {
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-         <Image source={Acrepair} style={styles.image} />
-       <Text style={styles.title}>AC Repair & Service</Text>
+         <Image source={SalonWomenLuxury} style={styles.image} />
+       <Text style={styles.title}>Salon Women Luxe</Text>
        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScroll}>
        <View style={styles.buttonContainer}>
                
@@ -90,7 +90,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#F3F4F6',
         paddingBottom: 20,
     },
-      title: {
+    
+   
+   title: {
         fontSize: 28,
         fontWeight: 'bold',
         left:10,
@@ -195,4 +197,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default AC;
+export default SalonWomenLuxe;

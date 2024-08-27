@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SalonForWomen = ({ navigation }) => {
+const MassageForMen = ({ navigation }) => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://10.0.2.2:3000/api/SalonForWomen`);
+      const response = await fetch(`http://10.0.2.2:3000/api/MassageForMen`);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       setServices(data);
@@ -52,7 +52,7 @@ const SalonForWomen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.headingText}>Salon For Women</Text>
+      <Text style={styles.headingText}>Massage For Men</Text>
       <View style={styles.servicesContainer}>
         {services.map((service) => (
           <TouchableOpacity
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SalonForWomen;
+export default MassageForMen;

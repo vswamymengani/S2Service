@@ -69,6 +69,24 @@ import PestControlService from './components/screens/PestControlService';
 import Cockroachcontrol from './components/screens/Cockroachcontrol';
 import TermiteControl from './components/screens/TermiteControl';
 import BedBugsControl from './components/screens/BedBugsControl';
+import SalonForWomen from './components/screens/SalonForWomen';
+import SalonWomenLuxe from './components/screens/SalonWomenLuxe';
+import SalonWomenPrime from './components/screens/SalonWomenPrime';
+import SalonWomenClassic from './components/screens/SalonWomenClassic';
+import SpaForWomen from './components/screens/SpaForWomen';
+import SpaWomenAyurveda from './components/screens/SpaWomenAyurveda';
+import SpaWomenPrime from './components/screens/SpaWomenPrime';
+import SpaWomenLuxe from './components/screens/SpaWomenLuxe';
+import HairStudioWomen from './components/screens/HairStudioWomen';
+import MakeupStudio from './components/screens/MakeupStudio';
+import SalonForMen from './components/screens/SalonForMen';
+import SalonMenRoyale from './components/screens/SalonMenRoyale';
+import SalonMenPrime from './components/screens/SalonMenPrime';
+import MassageForMen from './components/screens/MassageForMen';
+import SpaMenPrime from './components/screens/SpaMenPrime';
+import SpaMenAyurveda from './components/screens/SpaMenAyurveda';
+import SpaMenRoyal from './components/screens/SpaMenRoyal';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -201,6 +219,23 @@ function App() {
         <Stack.Screen name="Cockroachcontrol" component={Cockroachcontrol} options={{ headerShown: false }} />
         <Stack.Screen name="TermiteControl" component={TermiteControl} options={{ headerShown: false }} />
         <Stack.Screen name="BedBugsControl" component={BedBugsControl} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonForWomen" component={SalonForWomen} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonWomenLuxe" component={SalonWomenLuxe} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonWomenPrime" component={SalonWomenPrime} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonWomenClassic" component={SalonWomenClassic} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaForWomen" component={SpaForWomen} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaWomenAyurveda" component={SpaWomenAyurveda} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaWomenPrime" component={SpaWomenPrime} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaWomenLuxe" component={SpaWomenLuxe} options={{ headerShown: false }} />
+        <Stack.Screen name="HairStudioWomen" component={HairStudioWomen} options={{ headerShown: false }} />
+        <Stack.Screen name="MakeupStudio" component={MakeupStudio} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonForMen" component={SalonForMen} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonMenRoyale" component={SalonMenRoyale} options={{ headerShown: false }} />
+        <Stack.Screen name="SalonMenPrime" component={SalonMenPrime} options={{ headerShown: false }} />
+        <Stack.Screen name="MassageForMen" component={MassageForMen} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaMenPrime" component={SpaMenPrime} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaMenAyurveda" component={SpaMenAyurveda} options={{ headerShown: false }} />
+        <Stack.Screen name="SpaMenRoyal" component={SpaMenRoyal} options={{ headerShown: false }} />
         
         <Stack.Screen
           name="BookingScreen"
