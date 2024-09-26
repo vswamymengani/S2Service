@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import axios from 'axios';
 
 const Forgott1 = () => {
   const navigation = useNavigation();
@@ -11,158 +11,158 @@ const Forgott1 = () => {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
+
+    if (value && index < 3) {
+      const nextField = index + 1;
+      if (codeInputs[nextField]) {
+        codeInputs[nextField].focus();
+      }
+    }
   };
 
-  const handleVerify = () => {
-    // Add verification logic here
-    navigation.navigate('CreateNewPassword');
+  const codeInputs = [];
+
+  const handleVerifyCode = async () => {
+    try {
+      const verificationCode = code.join('');
+      const response = await axios.post('http://localhost:3000/verifyCode', {
+        code: verificationCode,
+      });
+
+      if (response.data.success) {
+        navigation.navigate('Forgott2');
+      } else {
+        Alert.alert('Error', response.data.message || 'Verification failed');
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.innerContainer}>
+        <Text style={styles.headerTitle}>Reset Your Password</Text>
+        <Text style={styles.verifyTitle}>Verify Code</Text>
+        <Text style={styles.instructionText}>Enter the 4-digit code we sent to your email address</Text>
 
-        <Text style={styles.headerTitle}>Forgot Password</Text>
-      </View>
-      <Text style={styles.verifyTitle}>Verify</Text>
-      <Text style={styles.instructionText}>Please enter the code we sent to you</Text>
-
-      <View style={styles.codeInputContainer}>
-        {code.map((digit, index) => (
-          <TextInput
-            key={index}
-            style={styles.codeInput}
-            keyboardType="number-pad"
-            maxLength={1}
-            value={digit}
-            onChangeText={(value) => handleCodeChange(index, value)}
-          />
-        ))}
-      </View>
-
-      <Text style={styles.resendText}>Didn't receive the code?</Text>
-      <Text style={styles.resendLink}>Resend code</Text>
-      <Text style={styles.rightside}>1 of 2</Text>
-
-      <View style={styles.progressContainer}>
-        <View style={styles.progressBar}>
-          <View style={styles.progressActive}></View>
-          <View style={styles.progressInactive}></View>
+        <View style={styles.codeInputContainer}>
+          {code.map((digit, index) => (
+            <TextInput
+              key={index}
+              ref={(input) => (codeInputs[index] = input)}
+              style={styles.codeInput}
+              keyboardType="number-pad"
+              maxLength={1}
+              value={digit}
+              onChangeText={(value) => handleCodeChange(index, value)}
+            />
+          ))}
         </View>
-      </View>
 
-      <TouchableOpacity style={styles.verifyButton} onPress={() => navigation.navigate('Forgott2')}>
-        <Text style={styles.verifyButtonText}>Verify</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={() => { /* Add resend code logic here */ }}>
+          <Text style={styles.resendLink}>Resend Code</Text>
+        </TouchableOpacity>
+
+        <View style={styles.progressBarContainer}>
+          <View style={[styles.progressBar, styles.progressBarActive]} />
+          <View style={[styles.progressBar, styles.progressBarInactive]} />
+        </View>
+
+        <TouchableOpacity style={styles.verifyButton} onPress={handleVerifyCode}>
+          <Text style={styles.verifyButtonText}>Verify</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: '#F7F7F7',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
   },
-  header: {
-    flexDirection: 'row',
+  innerContainer: {
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  backarrow:{
-    height:30,
-    width:30,
-
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#344055',
+    marginBottom: 20,
     textAlign: 'center',
-    justifyContent:'center',
-    color:'red',
-    flex: 1, 
-    marginBottom:20,
   },
   verifyTitle: {
-    fontSize: 27,
-    fontWeight: 'bold',
-    color:'black',
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#7d869c',
+    marginBottom: 10,
     textAlign: 'center',
-    marginBottom: 20,
   },
   instructionText: {
-    textAlign: 'center',
-    color:'black',
-    marginBottom: 25,
     fontSize: 16,
+    color: '#7d869c',
+    textAlign: 'center',
+    marginBottom: 25,
+    lineHeight: 22,
   },
   codeInputContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginBottom: 30,
-  },
-  codeInput: {
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 10,
-    width: 50,
-    height: 50,
-    textAlign: 'center',
-    fontSize: 18,
-  },
-  resendText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color:'black',
-  },
-  rightside:{
-    textAlign:"right",
-    fontSize:17,
-    color:'black',
-
-  },
-  resendLink: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: 'blue',
-    marginBottom: 40,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  progressText: {
-    fontSize: 14,
+  codeInput: {
+    width: 60,
+    height: 60,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    fontSize: 24,
+    borderRadius: 8,
+    color: '#333',
+    marginHorizontal: 5,
+  },
+  resendLink: {
+    color: '#007BFF',
+    textAlign: 'center',
+    marginBottom: 30,
+    fontSize: 16,
+  },
+  progressBarContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
   },
   progressBar: {
+    height: 5,
+    borderRadius: 2.5,
     flex: 1,
-    flexDirection: 'row',
-    height: 4,
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginLeft: 10,
+    marginHorizontal: 5,
   },
-  progressActive: {
-    flex: 1,
-    backgroundColor: 'blue',
+  progressBarActive: {
+    backgroundColor: '#007BFF',
   },
-  progressInactive: {
-    flex: 1,
-    backgroundColor: 'lightgray',
+  progressBarInactive: {
+    backgroundColor: '#ccc',
   },
   verifyButton: {
-    backgroundColor: '#3F1175',
-    padding: 15,
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
     borderRadius: 30,
     alignItems: 'center',
-    alignSelf: 'center',
     width: '100%',
+    maxWidth: 300,
   },
   verifyButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

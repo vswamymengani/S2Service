@@ -1,51 +1,51 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import Image1 from "../assets/Forgot1.png";
-import Image2 from "../assets/chat.png";
-import Image3 from "../assets/mail.png";
-import Image4 from "../assets/HomeIndicator.png";
 
 const Forgott = () => {
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
+  const handleSendVerificationCode = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/sendVerificationCode', {
+        identifier: inputValue,
+      });
+
+      if (response.data.success) {
+        navigation.navigate('Forgott1');
+      } else {
+        Alert.alert('Error', response.data.message || 'Failed to send verification code');
+      }
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Forgot Password ?</Text>
+      <Text style={styles.title}>Reset Your Password</Text>
       <Image source={Image1} style={styles.image} />
-      <Text style={styles.instructionText}>Where would you like to receive a Verification Code?</Text>
+      <Text style={styles.instructionText}>
+        Please enter your registered phone number or email address. We will send you a verification code to reset your password.
+      </Text>
 
       <View style={styles.inputContainer}>
-        <Image source={Image2} style={styles.icon} />
-        <Text style={styles.inputLabel}>via SMS</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter phone number"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-        />
-      </View>
-      <Text style={styles.or}>OR</Text>
-       
-      <View style={styles.inputContainer}>
-        <Image source={Image3} style={styles.icon} />
-        <Text style={styles.inputLabel}>via Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
+          placeholder="Enter phone number or email"
+          value={inputValue}
+          onChangeText={setInputValue}
+          keyboardType="default"
         />
       </View>
       
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Forgott1')}>
-        <Text style={styles.buttonText}>Next</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSendVerificationCode}>
+        <Text style={styles.buttonText}>Send Verification Code</Text>
       </TouchableOpacity>
-      
     </ScrollView>
   );
 };
@@ -53,73 +53,61 @@ const Forgott = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F7F7F7',
     padding: 20,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 20,
-    color: "red",
-    bottom:20,
-  },
-  image: {
-    width: '70%',
-    height: '40%',
-    alignSelf: 'center',
-    marginBottom: 0,
-    bottom:25,
-  },
-  
-  instructionText: {
-    textAlign: 'center',
-    marginBottom: 0,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
-    bottom:20,
-  },
-  or: {
+    fontSize: 24,
+    fontWeight: '600',
     textAlign: 'center',
     marginBottom: 20,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
+    color: '#333',
+  },
+  image: {
+    width: '50%',
+    height: undefined,
+    aspectRatio: 1,
+    alignSelf: 'center',
+    marginBottom: 30,
+  },
+  instructionText: {
+    textAlign: 'center',
+    marginBottom: 20,
+    fontSize: 16,
+    color: '#555',
+    lineHeight: 22,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#3F1175',
-    borderRadius: 20,
-    marginBottom: 10,
-    padding: 25,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
-  },
-  inputLabel: {
-    flex: 1,
-    fontSize: 16,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   input: {
-    flex: 2,
-    borderBottomWidth: 1,
-    borderColor: '#3F1175',
-    paddingVertical: 5,
+    fontSize: 16,
+    color: '#333',
   },
   button: {
-    backgroundColor: '#3F1175',
-    padding: 20,
-    borderRadius: 40,
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    borderRadius: 12,
     alignItems: 'center',
+    shadowColor: '#3F1175',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

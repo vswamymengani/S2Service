@@ -1,225 +1,211 @@
 import React, { useState } from 'react';
-import { View, Text,Image, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView, Platform, Alert, Dimensions,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Image1 from "../assets/Verified.png";
-import Image2 from "../assets/BackArrow.png";
-import Image3 from "../assets/Lock.png";
+import axios from 'axios';
 
+const { width } = Dimensions.get('window');
 
 const Forgott2 = () => {
   const navigation = useNavigation();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isRememberMe, setIsRememberMe] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleVerify = () => {
-    // Add logic for verifying and setting the new password
-    setIsModalVisible(true);
+  const handleSubmit = async () => {
+    if (newPassword === confirmPassword) {
+      setLoading(true);
+      try {
+        const response = await axios.post('http://localhost:3000/resetPassword', {
+          newPassword,
+          identifier: 'user@example.com', // Replace with actual identifier
+        });
+
+        if (response.data.success) {
+          setIsModalVisible(true);
+        } else {
+          Alert.alert('Error', response.data.message || 'Password reset failed');
+        }
+      } catch (error) {
+        console.error('Error resetting password:', error);
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      Alert.alert('Error', 'Passwords do not match');
+    }
   };
 
   const handleModalClose = () => {
     setIsModalVisible(false);
-    navigation.navigate('LoginScreen');
+    navigation.navigate('Login');
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backarrow} onPress ={() => navigation.navigate("Forgott1")}>
-            <Image source={Image2} style={styles.backarrow} />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.innerContainer}>
+        <Text style={styles.headerTitle}>Reset Your Password</Text>
+        <Text style={styles.title}>Create New Password</Text>
+        <Text style={styles.instructionText}>
+          Enter and confirm your new password to proceed
+        </Text>
+
+        <View style={styles.formContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="New Password"
+            secureTextEntry
+            value={newPassword}
+            onChangeText={setNewPassword}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
+          <Text style={styles.submitButtonText}>{loading ? 'Submitting...' : 'Submit'}</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Forgot Password</Text>
       </View>
 
-      <Text style={styles.title}>Create a New Password</Text>
-
-      <View style={styles.inputContainer}>
-        <Image source={Image3} style={styles.backarrow} />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your new password"
-          secureTextEntry
-          value={newPassword}
-          onChangeText={setNewPassword}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-      <Image source={Image3} style={styles.backarrow} />
-        <TextInput
-          style={styles.input}
-          placeholder="Repeat the password"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-      </View>
-
-      <View style={styles.rememberMeContainer}>
-        <TouchableOpacity onPress={() => setIsRememberMe(!isRememberMe)}>
-        </TouchableOpacity>
-        <Text style={styles.rememberMeText}>Remember Me</Text>
-      </View>
-
-      <Text style={styles.progressText}>2 of 2</Text>
-      <View style={styles.progressBar}>
-        <View style={styles.progressCompleted}></View>
-
-      </View>
-
-      <TouchableOpacity style={styles.verifyButton} onPress={handleVerify}>
-        <Text style={styles.verifyButtonText}>Verify</Text>
-      </TouchableOpacity>
-
-      <Modal visible={isModalVisible} transparent={true} animationType="slide">
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={handleModalClose}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Image source={Image1} style={styles.congratsIcon} />
-            <Text style={styles.modalTitle}>Congratulations!</Text>
-            <Text style={styles.modalText}>Password Reset Successful</Text>
-            <Text style={styles.modalText}>You'll be redirected to the</Text>
-            <Text style={styles.modalText}>login screen now.</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.modalHeader}>Success</Text>
+            <Text style={styles.modalText}>
+              Your password has been reset successfully
+            </Text>
+            <TouchableOpacity style={styles.modalButton} onPress={handleModalClose}>
               <Text style={styles.modalButtonText}>OK</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
   );
+};
+
+const colors = {
+  background: '#f5f7fa',
+  textPrimary: '#344055',
+  textSecondary: '#7d869c',
+  inputBackground: '#ffffff',
+  inputBorder: '#ccc',
+  buttonBackground: '#007BFF',
+  buttonText: '#ffffff',
+  modalBackground: '#ffffff',
+  modalOverlay: 'rgba(0, 0, 0, 0.5)',
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: colors.background,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
   },
-  header: {
-    flexDirection: 'row',
+  innerContainer: {
     alignItems: 'center',
-    marginBottom: 30,
-  },
-  backarrow:{
-    height:30,
-    width:30,
-
   },
   headerTitle: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: 20,
     textAlign: 'center',
-    color: 'red',
-    flex: 1,
-    top:50,
-    marginBottom:10,
-    marginLeft: -24, // Adjust to center title with back arrow
   },
   title: {
-    fontSize: 30,
-    marginTop:20,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: colors.textSecondary,
+    marginBottom: 10,
     textAlign: 'center',
-    color:'black',
-    top:30,
-    marginBottom: 40,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor:'lightgray',
-    borderRadius: 35,
-    padding: 8,
-    top:30,
-    marginBottom: 20,
+  instructionText: {
+    fontSize: 16,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: 25,
+  },
+  formContainer: {
+    marginBottom: 30,
+    width: '100%',
+    maxWidth: width * 0.9,
   },
   input: {
-    flex: 1,
-    marginLeft: 10,
+    backgroundColor: colors.inputBackground,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.inputBorder,
+    paddingHorizontal: 15,
+    height: 50,
     fontSize: 16,
-    
-  },
-  rememberMeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    color: '#333',
     marginBottom: 20,
-    top:30,
+    width: '100%',
   },
-  rememberMeText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color:'blue',
-  },
-  progressText: {
-    textAlign: 'right',
-    fontSize: 14,
-    marginBottom: 10,
-    color:'black',
-    fontWeight:'bold',
-    top:20,
-  },
-  progressBar: {
-    flexDirection: 'row',
-    height: 5,
-    borderRadius: 5,
-    overflow: 'hidden',
-    marginBottom: 20,
-    top:20,
-
-  },
-  progressCompleted: {
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  verifyButton: {
-    backgroundColor: '#3F1175',
-    padding: 20,
-    borderRadius: 35,
+  submitButton: {
+    backgroundColor: colors.buttonBackground,
+    paddingVertical: 15,
+    borderRadius: 30,
     alignItems: 'center',
-    top:20,
+    width: '100%',
   },
-  verifyButtonText: {
-    color: '#fff',
-    fontSize: 16,
+  submitButtonText: {
+    color: colors.buttonText,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: colors.modalOverlay,
   },
   modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: colors.modalBackground,
+    borderRadius: 8,
     padding: 20,
     alignItems: 'center',
+    width: '80%',
+    maxWidth: width * 0.8,
   },
-  congratsIcon: {
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 24,
+  modalHeader: {
+    fontSize: 22,
     fontWeight: 'bold',
+    color: colors.textPrimary,
     marginBottom: 10,
-    color:'black',
   },
   modalText: {
     fontSize: 16,
+    color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 10,
-    color:'black',
+    marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#3F1175',
+    backgroundColor: colors.buttonBackground,
     padding: 10,
-    borderRadius: 10,
-    marginTop: 20,
+    borderRadius: 8,
   },
   modalButtonText: {
-    color: '#fff',
+    color: colors.buttonText,
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
