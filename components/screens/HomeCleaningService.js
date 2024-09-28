@@ -12,7 +12,7 @@ const HomeCleaningService = ({ navigation, route }) => {
   
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://10.0.2.2:3000/api/Full_Home_Cleaning`);
+            const response = await fetch(`http://10.0.2.2:3000/api/s2Full_Home_Cleaning`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);

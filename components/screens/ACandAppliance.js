@@ -9,7 +9,7 @@ const ACandAppliance = ({ navigation, route }) => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://10.0.2.2:3000/api/Appliancerepair`);
+            const response = await fetch(`http://10.0.2.2:3000/api/s2appliancerepair`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);

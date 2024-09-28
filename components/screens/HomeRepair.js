@@ -8,7 +8,7 @@ const HomeRepair = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://10.0.2.2:3000/api/HomeRepair`);
+      const response = await fetch(`http://10.0.2.2:3000/api/s2HomeRepair`);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       setServices(data);

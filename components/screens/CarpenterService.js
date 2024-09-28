@@ -12,7 +12,7 @@ const CarpenterService = ({ navigation, route }) => {
   
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://10.0.2.2:3000/api/Carpenter`);
+            const response = await fetch(`http://10.0.2.2:3000/api/s2Carpenter`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setServices(data);

@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Image6 from '../assets/slogo.png';
 import fblogo from '../assets/Fblogo.jpg';
 import glogo from '../assets/Glogo.jpg';
 
+const { width, height } = Dimensions.get('window');
+
 const Login = () => {
-  const MainTabs = ({ route }) => {
-    const { email } = route.params;
-  
-    // Rest of your component code
-  };
-  
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,43 +17,28 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    }
-    if (!password.trim()) {
-      newErrors.password = 'Password is required';
-    }
+    if (!email.trim()) newErrors.email = 'Email is required';
+    if (!password.trim()) newErrors.password = 'Password is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleLogin = () => {
     if (validateForm()) {
-      axios.post('http://10.0.2.2:3000/logincustomer', {
-        email,
-        password,
-      })
+      axios.post('http://10.0.2.2:3000/logincustomer', { email, password })
         .then(response => {
           if (response.data.Status === "Success") {
-            // Successfully logged in
-            
-            navigation.push('MainTabs', { email }); // Pass email to MainTabs screen
+            navigation.navigate('MainTabs', { email });
           } else {
-            // Handle error responses from the server
-            console.error('Failed to login:', response.data.Error);
             setErrors({ general: response.data.Error });
           }
         })
-        .catch(error => {
-          // Handle network errors
-          console.error('Axios Error:', error);
-          setErrors({ general: 'An error occurred. Please try again.' });
-        });
+        .catch(() => setErrors({ general: 'An error occurred. Please try again.' }));
     }
   };
 
   const clearError = (field) => {
-    setErrors((prevErrors) => {
+    setErrors(prevErrors => {
       const newErrors = { ...prevErrors };
       delete newErrors[field];
       return newErrors;
@@ -66,68 +47,61 @@ const Login = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Image source={Image6} style={styles.image6} />
-        <View style={styles.header}>
-          <Text style={styles.headerText}></Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Text style={styles.heading}>Login</Text>
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Email</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Image source={Image6} style={styles.logo} />
+        <View style={styles.innerContainer}>
+          <Text style={styles.headerTitle}>Login</Text>
+          <View style={styles.formContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="example@gmail.com"
+              value={email}
+              onChangeText={(text) => { setEmail(text); clearError('email'); }}
+            />
+            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => { setPassword(text); clearError('password'); }}
+            />
+            {errors.password && <Text style={styles.error}>{errors.password}</Text>}
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder="example@gmail.com"
-            value={email}
-            onChangeText={(text) => { setEmail(text); clearError('email'); }}
-          />
-          {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Password</Text>
+          {errors.general && <Text style={styles.error}>{errors.general}</Text>}
+          <View style={styles.rememberMeContainer}>
+            <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
+              <Text style={styles.rememberMeText}>{rememberMe ? "☑" : "☐"} Remember Me</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your password"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => { setPassword(text); clearError('password'); }}
-          />
-          {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-        </View>
-        {errors.general && <Text style={styles.error}>{errors.general}</Text>}
-        <View style={styles.rememberMeContainer}>
-          <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
-            <Text style={styles.rememberMeText}>{rememberMe ? "☑" : "☐"} Remember Me</Text>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Forgott')}>
-            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+          <View style={styles.orContainer}>
+            <View style={styles.line} />
+            <Text style={styles.orText}>Or With</Text>
+            <View style={styles.line} />
+          </View>
+          <TouchableOpacity style={styles.socialButton}>
+            <Image source={fblogo} style={styles.socialLogo} />
+            <Text style={styles.socialButtonText}>Login with Facebook</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.socialButton}>
+            <Image source={glogo} style={styles.socialLogo} />
+            <Text style={styles.socialButtonText}>Login with Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Form')}>
+            <Text style={styles.signupText}>
+              Don't have an account? <Text style={styles.signupLink}>Sign Up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Login</Text>
-        </TouchableOpacity>
-        <View style={styles.orContainer}>
-          <View style={styles.line} />
-          <Text style={styles.orwith}>Or With</Text>
-          <View style={styles.line} />
-        </View>
-        <TouchableOpacity style={styles.facebookButton} onPress={''}>
-          <Image source={fblogo} style={styles.socialLogo} />
-          <Text style={styles.loginButtonText}>Login with Facebook</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.googleButton} onPress={''}>
-          <Image source={glogo} style={styles.socialLogo} />
-          <Text style={styles.loginButtonText}>Login with Google</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Form')}>
-          <Text style={styles.signupText}>
-            Don't have an account? <Text style={styles.signupLink}>Signup</Text>
-          </Text>
-        </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -135,75 +109,76 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#f5f7fa',
+  },
+  scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    paddingHorizontal: '5%',
   },
-  image6: {
-    width: '80%',
-    height: 75,
-    marginTop: 30,
+  logo: {
+    width: width * 0.7, 
+    height: height * 0.2, 
+    resizeMode: 'contain', 
+    marginVertical: 20,
   },
-  heading: {
-    fontSize: 30,
+  innerContainer: {
+    width: '100%',
+    maxWidth: '90%',
+  },
+  headerTitle: {
+    fontSize: width * 0.08,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#344055',
     marginBottom: 20,
-  },
-  header: {
-    marginTop: -10,
+    textAlign: 'center',
   },
   formContainer: {
-    alignItems: 'flex-start',
-    marginTop: 20,
-    width: '80%',
-  },
-  labelContainer: {
-    width: '100%',
-  },
-  label: {
-    textAlign: 'left',
-    fontWeight: 'bold',
-    marginBottom: 10,
-    fontSize: 16,
-    color: 'black',
+    marginBottom: 30,
   },
   input: {
-    width: '100%',
-    height: 40,
+    backgroundColor: '#fff',
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderColor: '#ccc',
+    paddingHorizontal: 15,
+    height: 50,
+    fontSize: width * 0.045,
+    color: '#333',
     marginBottom: 20,
+    elevation: 3,
   },
   loginButton: {
-    width: '60%',
-    height: 50,
-    backgroundColor: 'blue',
-    justifyContent: 'center',
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    borderRadius: 30,
     alignItems: 'center',
-    borderRadius: 10,
-    marginBottom: 20,
+    width: '100%',
   },
   loginButtonText: {
-    fontSize: 18,
-    color: 'white',
-  },
-  forgotPasswordText: {
-    color: 'black',
+    color: '#fff',
+    fontSize: width * 0.05,
     fontWeight: 'bold',
+  },
+  error: {
+    color: '#e74c3c',
+    fontSize: width * 0.04,
+    marginBottom: 10,
   },
   rememberMeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
     marginBottom: 20,
   },
   rememberMeText: {
-    color: 'black',
-    fontWeight: 'bold',
+    fontSize: width * 0.045,
+    color: '#7d869c',
+  },
+  forgotPasswordText: {
+    fontSize: width * 0.045,
+    color: '#007BFF',
   },
   orContainer: {
     flexDirection: 'row',
@@ -211,55 +186,46 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   line: {
-    flex: 1,
     height: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#ccc',
+    flex: 1,
   },
-  orwith: {
-    textAlign: 'center',
+  orText: {
     marginHorizontal: 10,
-    fontSize: 18,
-    color: 'black',
+    fontSize: width * 0.045,
+    color: '#7d869c',
+  },
+  socialButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    width: '100%',
   },
   socialLogo: {
-    width: 30,
-    height: 30,
+    width: width * 0.08, 
+    height: width * 0.08,
+    resizeMode: 'contain', 
     marginRight: 10,
   },
-  facebookButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '60%',
-    height: 50,
-    backgroundColor: '#3b5998',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '60%',
-    height: 50,
-    backgroundColor: '#db4a39',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginBottom: 20,
+  socialButtonText: {
+    fontSize: width * 0.045,
+    color: '#333',
   },
   signupText: {
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 50,
-    fontSize: 14,
+    fontSize: width * 0.045,
+    color: '#7d869c',
+    textAlign: 'center',
   },
   signupLink: {
-    color: '#1DBBFF',
-    textDecorationLine: 'underline',
-  },
-  error: {
-    color: 'red',
-    marginBottom: 10,
+    color: '#007BFF',
   },
 });
+
 
 export default Login;

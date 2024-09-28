@@ -8,7 +8,7 @@ const PestControlService = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://10.0.2.2:3000/api/PestControlService`);
+      const response = await fetch(`http://10.0.2.2:3000/api/s2PestControlService`);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       setServices(data);

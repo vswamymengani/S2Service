@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
+const { width } = Dimensions.get('window');
+
 const Form = () => {
-  const [userType, setUserType] = useState('customer');
   const [formData, setFormData] = useState({
     fullname: '',
     gender: '',
@@ -14,7 +25,6 @@ const Form = () => {
     presentaddress: '',
     password: '',
     confirmpassword: '',
-    workExperience: ''
   });
   const [errors, setErrors] = useState({});
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
@@ -29,21 +39,13 @@ const Form = () => {
 
   const validateForm = () => {
     let errors = {};
+    if (!formData.fullname) errors.fullname = 'Full Name is required';
+    if (!formData.gender) errors.gender = 'Gender is required';
     if (!formData.email) errors.email = 'Email is required';
+    if (!formData.mobile) errors.mobile = 'Phone Number is required';
+    if (!formData.presentaddress) errors.presentaddress = 'Address is required';
     if (!formData.password) errors.password = 'Password is required';
     if (formData.password !== formData.confirmpassword) errors.confirmpassword = 'Passwords do not match';
-
-    if (userType === 'customer' || userType === 'technician') {
-      if (!formData.fullname) errors.fullname = 'Full Name is required';
-      if (!formData.gender) errors.gender = 'Gender is required';
-      if (!formData.mobile) errors.mobile = 'Phone Number is required';
-      if (!formData.presentaddress) errors.presentaddress = 'Address is required';
-    }
-
-    if (userType === 'technician' && !formData.workExperience) {
-      errors.workExperience = 'Work Experience is required';
-    }
-
     return errors;
   };
 
@@ -51,9 +53,7 @@ const Form = () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const apiUrl = userType === 'customer' ? 'http://10.0.2.2:3000/registercustomer' :
-                       userType === 'technician' ? 'http://10.0.2.2:3000/registertechnician' :
-                       'http://10.0.2.2:3000/registeradmin';
+        const apiUrl = 'http://10.0.2.2:3000/registercustomer'; // Update if necessary
         const response = await axios.post(apiUrl, formData);
         if (response.status === 200) {
           setSuccessModalVisible(true);
@@ -68,62 +68,58 @@ const Form = () => {
     }
   };
 
-  const clearError = (field) => {
-    setErrors((prevErrors) => {
-      const newErrors = { ...prevErrors };
-      delete newErrors[field];
-      return newErrors;
-    });
-  };
+  return (
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Text style={styles.headerTitle}>Create an Account</Text>
+        <Text style={styles.subheader}>Register for our services!</Text>
 
-  const renderFields = () => {
-    return (
-      <>
-        {userType !== 'admin' && (
-          <>
-            <Text style={styles.label}>Full Name</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your name"
-              value={formData.fullname}
-              onChangeText={(text) => handleInputChange('fullname', text)}
-            />
-            {errors.fullname && <Text style={styles.errorText}>{errors.fullname}</Text>}
+        {/* Full Name */}
+        <Text style={styles.label}>Full Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your name"
+          value={formData.fullname}
+          onChangeText={(text) => handleInputChange('fullname', text)}
+        />
+        {errors.fullname && <Text style={styles.errorText}>{errors.fullname}</Text>}
 
-            <Text style={styles.label}>Gender</Text>
-            <Picker
-              selectedValue={formData.gender}
-              onValueChange={(itemValue) => handleInputChange('gender', itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Select Gender" value="" />
-              <Picker.Item label="Male" value="male" />
-              <Picker.Item label="Female" value="female" />
-              <Picker.Item label="Other" value="other" />
-            </Picker>
-            {errors.gender && <Text style={styles.errorText}>{errors.gender}</Text>}
+        {/* Gender */}
+        <Text style={styles.label}>Gender</Text>
+        <Picker
+          selectedValue={formData.gender}
+          style={styles.picker}
+          onValueChange={(itemValue) => handleInputChange('gender', itemValue)}
+        >
+          <Picker.Item label="Select Gender" value="" />
+          <Picker.Item label="Male" value="male" />
+          <Picker.Item label="Female" value="female" />
+          <Picker.Item label="Other" value="other" />
+        </Picker>
+        {errors.gender && <Text style={styles.errorText}>{errors.gender}</Text>}
 
-            <Text style={styles.label}>Phone Number</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your phone number"
-              value={formData.mobile}
-               keyboardType="phone-pad"
-              onChangeText={(text) => handleInputChange('mobile', text)}
-            />
-            {errors.mobile && <Text style={styles.errorText}>{errors.mobile}</Text>}
+        {/* Mobile */}
+        <Text style={styles.label}>Phone Number</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your phone number"
+          value={formData.mobile}
+          keyboardType="phone-pad"
+          onChangeText={(text) => handleInputChange('mobile', text)}
+        />
+        {errors.mobile && <Text style={styles.errorText}>{errors.mobile}</Text>}
 
-            <Text style={styles.label}>Address</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your address"
-              value={formData.presentaddress}
-              onChangeText={(text) => handleInputChange('presentaddress', text)}
-            />
-            {errors.presentaddress && <Text style={styles.errorText}>{errors.presentaddress}</Text>}
-          </>
-        )}
+        {/* Address */}
+        <Text style={styles.label}>Address</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your address"
+          value={formData.presentaddress}
+          onChangeText={(text) => handleInputChange('presentaddress', text)}
+        />
+        {errors.presentaddress && <Text style={styles.errorText}>{errors.presentaddress}</Text>}
 
+        {/* Email */}
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
@@ -133,6 +129,7 @@ const Form = () => {
         />
         {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
+        {/* Password */}
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
@@ -143,6 +140,7 @@ const Form = () => {
         />
         {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
+        {/* Confirm Password */}
         <Text style={styles.label}>Confirm Password</Text>
         <TextInput
           style={styles.input}
@@ -153,139 +151,113 @@ const Form = () => {
         />
         {errors.confirmpassword && <Text style={styles.errorText}>{errors.confirmpassword}</Text>}
 
-        {userType === 'technician' && (
-          <>
-            <Text style={styles.label}>Work Experience</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your work experience"
-              value={formData.workExperience}
-              onChangeText={(text) => handleInputChange('workExperience', text)}
-            />
-            {errors.workExperience && <Text style={styles.errorText}>{errors.workExperience}</Text>}
-          </>
-        )}
-      </>
-    );
-  };
+        {/* Register Button */}
+        <TouchableOpacity onPress={handleRegister} style={styles.button}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.headerText}>Create an account</Text>
-      <Text style={styles.t1}>Connect with our S2services today!</Text>
-      <Text style={styles.label}>Select User Type:</Text>
-      <Picker
-        selectedValue={userType}
-        onValueChange={(itemValue) => setUserType(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Customer" value="customer" />
-        <Picker.Item label="Technician" value="technician" />
-        <Picker.Item label="Admin" value="admin" />
-      </Picker>
+        {/* Login Link */}
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.signupText}>
+            Already have an account? <Text style={styles.signupLink}>Login</Text>
+          </Text>
+        </TouchableOpacity>
 
-      {renderFields()}
-
-      <TouchableOpacity onPress={handleRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.orText}>OR</Text>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.signupText}>Already have an account? Login</Text>
-      </TouchableOpacity>
-
-      <Modal
-        visible={isSuccessModalVisible}
-        transparent={true}
-        animationType="slide"
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.successMessage}>Registration Successful!</Text>
-            <Button
-              title="OK"
-              onPress={() => {
-                setSuccessModalVisible(false);
-                if (userType === 'customer') {
+        {/* Success Modal */}
+        <Modal
+          visible={isSuccessModalVisible}
+          transparent={true}
+          animationType="slide"
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.successMessage}>Registration Successful!</Text>
+              <Button
+                title="OK"
+                onPress={() => {
+                  setSuccessModalVisible(false);
                   navigation.navigate('Login');
-                } else if (userType === 'technician') {
-                  navigation.navigate('LoginTech');
-                } else if (userType === 'admin') {
-                  navigation.navigate('LoginAdmin');
-                }
-              }}
-            />
+                }}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
+    flex: 1,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
   },
-  t1: {
-    fontSize: 16,
-    marginBottom: 0,
-   
-    bottom: 20,
-    left: 70,
-    color: 'blue',
-  },
-  headerText: {
-    fontSize: 24,
+  headerTitle: {
+    fontSize: width * 0.08,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 20,
-    left: 90,
-    color:'blue',
+    textAlign: 'center',
+  },
+  subheader: {
+    fontSize: width * 0.045,
+    color: '#555',
+    marginBottom: 30,
+    textAlign: 'center',
   },
   label: {
-    fontSize: 16,
+    fontSize: width * 0.045,
+    color: '#333',
     marginBottom: 5,
   },
   input: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
+    paddingHorizontal: 15,
+    height: 50,
+    fontSize: width * 0.045,
+    color: '#333',
+    marginBottom: 20,
   },
   picker: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ccc',
-    marginBottom: 10,
+    height: 50,
+    marginBottom: 20,
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 15,
-    borderRadius: 15,
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 20,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    color: '#fff',
+    fontSize: width * 0.045,
     fontWeight: 'bold',
   },
   errorText: {
-    color: 'red',
+    color: '#e74c3c',
+    fontSize: width * 0.04,
     marginBottom: 10,
-  },
-  orText: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 16,
-    fontWeight:'bold'
   },
   signupText: {
     textAlign: 'center',
-    marginTop: 10,
-    fontSize: 16,
-    color: 'blue',
+    color: '#555',
+    fontSize: width * 0.045,
+  },
+  signupLink: {
+    color: '#007BFF',
+    fontWeight: 'bold',
   },
   modalContainer: {
     flex: 1,
@@ -294,14 +266,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
+    width: '80%',
     alignItems: 'center',
   },
   successMessage: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
 });
 
